@@ -111,7 +111,7 @@
         .animate-marquee {
             display: flex;
             width: max-content;
-            animation: marquee 60s linear infinite; /* Скорость ленты */
+            animation: marquee 40s linear infinite; /* Скорость ленты */
         }
         
         /* Останавливать при наведении */
@@ -119,37 +119,28 @@
             animation-play-state: paused;
         }
 
-        /* Стили фото кейсов: АДАПТАЦИЯ ПОД IPHONE 14 PRO MAX */
-        /* На мобильном высота 750px (почти весь экран), ширина авто (сохраняем пропорции) */
+        /* Стили фото кейсов: КВАДРАТНЫЕ И КОМПАКТНЫЕ */
         .case-img-container {
-            height: 750px; 
-            /* Ширина подберется автоматически, но не шире экрана телефона (max-width: 90vw) */
-            max-width: 90vw; 
+            width: 350px;  /* Фиксированная ширина */
+            height: 350px; /* Фиксированная высота (квадрат) */
             flex-shrink: 0;
             background: rgba(255, 255, 255, 0.05);
             border-radius: 12px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             overflow: hidden;
+            /* На маленьких экранах (iPhone SE и т.д.) чуть меньше, чтобы влезло */
+            @media (max-width: 380px) {
+                width: 300px;
+                height: 300px;
+            }
         }
         
         .case-img-container img {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Заполняет блок, обрезая лишнее */
+            object-fit: cover; /* Заполняет квадрат полностью (обрезая края) */
+            /* Если нужно видеть весь текст без обрезки, поменяй на object-contain и добавь bg-black */
             display: block;
-        }
-        
-        /* На планшетах и ПК делаем поменьше, чтобы не занимало весь монитор */
-        @media (min-width: 768px) {
-            .case-img-container {
-                height: 600px;
-                width: auto;
-                max-width: none;
-            }
-            .case-img-container img {
-                width: auto;
-                object-fit: contain;
-            }
         }
 
         /* Стили инпутов */
@@ -362,13 +353,13 @@
         </div>
     </section>
 
-    <!-- CASES / REVIEWS SECTION (INFINITE SCROLL: BIG PHOTOS) -->
+    <!-- CASES / REVIEWS SECTION (INFINITE SCROLL: SQUARE 350x350) -->
     <section class="py-24 bg-[#080808] overflow-hidden">
         <div class="w-full">
             <h2 class="font-heading text-3xl font-bold uppercase text-center mb-16 text-white fade-in-up"><span class="text-evo-red">КЕЙСИ</span></h2>
 
             <div class="relative w-full overflow-hidden">
-                <!-- Градиентные маски по бокам для красоты -->
+                <!-- Градиентные маски по бокам -->
                 <div class="absolute top-0 left-0 h-full w-4 lg:w-32 bg-gradient-to-r from-[#050505] to-transparent z-10 pointer-events-none"></div>
                 <div class="absolute top-0 right-0 h-full w-4 lg:w-32 bg-gradient-to-l from-[#050505] to-transparent z-10 pointer-events-none"></div>
 
