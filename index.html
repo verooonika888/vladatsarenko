@@ -119,11 +119,10 @@
             animation-play-state: paused;
         }
 
-        /* Стили фото кейсов: НАТУРАЛЬНЫЕ ПРОПОРЦИИ */
+        /* Стили фото кейсов: КОМПАКТНЫЕ ДЛЯ ТЕЛЕФОНА */
         .case-img-container {
-            /* Высота фиксированная, чтобы строка была ровной */
+            /* Высота на ПК: 400px */
             height: 400px; 
-            /* Ширина авто — подстраивается под пропорции фото */
             width: auto;
             flex-shrink: 0;
             background: rgba(255, 255, 255, 0.05);
@@ -131,16 +130,16 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             overflow: hidden;
             
-            /* На мобильных высоту чуть меньше, чтобы влезало в экран */
+            /* ВАЖНО: На мобильных высоту делаем 250px (гораздо меньше) */
             @media (max-width: 640px) {
-                height: 350px;
+                height: 250px;
             }
         }
         
         .case-img-container img {
             height: 100%;
-            width: auto; /* Картинка сама определит свою ширину */
-            object-fit: contain; /* Показываем картинку ЦЕЛИКОМ, ничего не обрезая */
+            width: auto; 
+            object-fit: contain; 
             display: block;
         }
 
