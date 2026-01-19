@@ -102,21 +102,19 @@
             transform: translateY(0);
         }
 
-        /* БЕГУЩАЯ СТРОКА (MARQUEE) */
-        @keyframes marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-        
-        .animate-marquee {
+        /* --- ГАЛЕРЕЯ --- */
+        .gallery-container {
             display: flex;
-            width: max-content;
-            animation: marquee 60s linear infinite; /* Скорость ленты */
+            gap: 16px; /* Отступы между фото */
+            overflow-x: auto; /* Горизонтальный скролл */
+            scroll-behavior: smooth; /* Плавная прокрутка */
+            padding-bottom: 20px;
+            /* Скрываем скроллбар для красоты */
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
         }
-        
-        /* Останавливать при наведении */
-        .animate-marquee:hover {
-            animation-play-state: paused;
+        .gallery-container::-webkit-scrollbar {
+            display: none; /* Chrome, Safari and Opera */
         }
 
         /* Стили фото кейсов: НАТУРАЛЬНЫЕ ПРОПОРЦИИ */
@@ -130,11 +128,16 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             overflow: hidden;
             cursor: pointer; /* Курсор-рука */
+            transition: transform 0.2s;
             
-            /* На мобильных высоту делаем 250px, чтобы было аккуратно */
+            /* На мобильных высоту делаем 250px */
             @media (max-width: 640px) {
                 height: 250px;
             }
+        }
+        
+        .case-img-container:active {
+            transform: scale(0.98);
         }
         
         .case-img-container img {
@@ -143,6 +146,31 @@
             object-fit: contain; 
             display: block;
         }
+
+        /* Кнопки навигации */
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background: rgba(0,0,0,0.6);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 20;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s;
+        }
+        .nav-btn:hover {
+            background: #FF2E2E;
+            border-color: #FF2E2E;
+        }
+        .nav-prev { left: 10px; }
+        .nav-next { right: 10px; }
 
         /* Стили инпутов */
         .evo-input {
@@ -354,23 +382,23 @@
         </div>
     </section>
 
-    <!-- CASES / REVIEWS SECTION (CLICKABLE LIGHTBOX) -->
+    <!-- CASES / REVIEWS SECTION (MANUAL SCROLL + CLICK) -->
     <section class="py-24 bg-[#080808] overflow-hidden">
-        <div class="w-full">
+        <div class="w-full relative group/slider">
             <div class="text-center mb-8 fade-in-up">
                 <h2 class="font-heading text-3xl font-bold uppercase text-white mb-2"><span class="text-evo-red">КЕЙСИ</span></h2>
-                <p class="text-gray-500 text-xs uppercase tracking-widest animate-pulse">Натисни на фото, щоб збільшити</p>
+                <p class="text-gray-500 text-xs uppercase tracking-widest animate-pulse">Гортай або натисни на фото</p>
             </div>
 
-            <div class="relative w-full overflow-hidden">
-                <!-- Градиентные маски по бокам -->
-                <div class="absolute top-0 left-0 h-full w-4 lg:w-32 bg-gradient-to-r from-[#050505] to-transparent z-10 pointer-events-none"></div>
-                <div class="absolute top-0 right-0 h-full w-4 lg:w-32 bg-gradient-to-l from-[#050505] to-transparent z-10 pointer-events-none"></div>
+            <div class="relative w-full overflow-hidden px-4 md:px-12">
+                <!-- Navigation Buttons -->
+                <button onclick="scrollGallery(-300)" class="nav-btn nav-prev"><i class="fa-solid fa-chevron-left"></i></button>
+                <button onclick="scrollGallery(300)" class="nav-btn nav-next"><i class="fa-solid fa-chevron-right"></i></button>
 
-                <!-- Лента с контентом -->
-                <div class="animate-marquee flex gap-4 lg:gap-6 items-center">
+                <!-- Лента с контентом (Без animation-marquee, просто скролл) -->
+                <div id="gallery" class="gallery-container">
                     
-                    <!-- --- НАБОР 11 ФОТО (С onclick) --- -->
+                    <!-- --- 12 ФОТО --- -->
                     <div class="case-img-container" onclick="openImage('rewiew1.JPG')"><img src="rewiew1.JPG" alt="Case 1"></div>
                     <div class="case-img-container" onclick="openImage('rewiew2.JPG')"><img src="rewiew2.JPG" alt="Case 2"></div>
                     <div class="case-img-container" onclick="openImage('rewiew3.JPG')"><img src="rewiew3.JPG" alt="Case 3"></div>
@@ -382,19 +410,7 @@
                     <div class="case-img-container" onclick="openImage('rewiew9.JPG')"><img src="rewiew9.JPG" alt="Case 9"></div>
                     <div class="case-img-container" onclick="openImage('rewiew10.JPG')"><img src="rewiew10.JPG" alt="Case 10"></div>
                     <div class="case-img-container" onclick="openImage('rewiew11.JPG')"><img src="rewiew11.JPG" alt="Case 11"></div>
-
-                    <!-- --- ДУБЛИКАТ --- -->
-                    <div class="case-img-container" onclick="openImage('rewiew1.JPG')"><img src="rewiew1.JPG" alt="Case 1"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew2.JPG')"><img src="rewiew2.JPG" alt="Case 2"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew3.JPG')"><img src="rewiew3.JPG" alt="Case 3"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew4.JPG')"><img src="rewiew4.JPG" alt="Case 4"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew5.JPG')"><img src="rewiew5.JPG" alt="Case 5"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew6.JPG')"><img src="rewiew6.JPG" alt="Case 6"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew7.JPG')"><img src="rewiew7.JPG" alt="Case 7"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew8.JPG')"><img src="rewiew8.JPG" alt="Case 8"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew9.JPG')"><img src="rewiew9.JPG" alt="Case 9"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew10.JPG')"><img src="rewiew10.JPG" alt="Case 10"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew11.JPG')"><img src="rewiew11.JPG" alt="Case 11"></div>
+                    <div class="case-img-container" onclick="openImage('rewiew12.JPG')"><img src="rewiew12.JPG" alt="Case 12"></div>
 
                 </div>
             </div>
@@ -493,7 +509,32 @@
             }, { threshold: 0.1 });
 
             document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
+            
+            // Auto scroll gallery (slowly)
+            const gallery = document.getElementById('gallery');
+            let scrollAmount = 0;
+            const scrollSpeed = 1; // Pixels per frame
+            
+            function autoScroll() {
+                // Если мышка не наведена, скроллим
+                if (!gallery.matches(':hover')) {
+                    if (gallery.scrollLeft >= (gallery.scrollWidth - gallery.clientWidth)) {
+                        gallery.scrollLeft = 0; // Reset
+                    } else {
+                        gallery.scrollLeft += scrollSpeed;
+                    }
+                }
+                requestAnimationFrame(autoScroll);
+            }
+            // Запустить автоскролл (раскомментируй строку ниже, если нужно чтобы само ползло)
+            // autoScroll(); 
         });
+
+        // --- GALLERY SCROLL ---
+        function scrollGallery(offset) {
+            const gallery = document.getElementById('gallery');
+            gallery.scrollBy({ left: offset, behavior: 'smooth' });
+        }
 
         // --- POPUP FORM LOGIC ---
         const modal = document.getElementById('modal-overlay');
