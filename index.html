@@ -111,7 +111,7 @@
         .animate-marquee {
             display: flex;
             width: max-content;
-            animation: marquee 40s linear infinite; /* Скорость ленты */
+            animation: marquee 60s linear infinite; /* Скорость ленты */
         }
         
         /* Останавливать при наведении */
@@ -119,27 +119,28 @@
             animation-play-state: paused;
         }
 
-        /* Стили фото кейсов: КВАДРАТНЫЕ И КОМПАКТНЫЕ */
+        /* Стили фото кейсов: НАТУРАЛЬНЫЕ ПРОПОРЦИИ */
         .case-img-container {
-            width: 350px;  /* Фиксированная ширина */
-            height: 350px; /* Фиксированная высота (квадрат) */
+            /* Высота фиксированная, чтобы строка была ровной */
+            height: 400px; 
+            /* Ширина авто — подстраивается под пропорции фото */
+            width: auto;
             flex-shrink: 0;
             background: rgba(255, 255, 255, 0.05);
             border-radius: 12px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             overflow: hidden;
-            /* На маленьких экранах (iPhone SE и т.д.) чуть меньше, чтобы влезло */
-            @media (max-width: 380px) {
-                width: 300px;
-                height: 300px;
+            
+            /* На мобильных высоту чуть меньше, чтобы влезало в экран */
+            @media (max-width: 640px) {
+                height: 350px;
             }
         }
         
         .case-img-container img {
-            width: 100%;
             height: 100%;
-            object-fit: cover; /* Заполняет квадрат полностью (обрезая края) */
-            /* Если нужно видеть весь текст без обрезки, поменяй на object-contain и добавь bg-black */
+            width: auto; /* Картинка сама определит свою ширину */
+            object-fit: contain; /* Показываем картинку ЦЕЛИКОМ, ничего не обрезая */
             display: block;
         }
 
@@ -353,7 +354,7 @@
         </div>
     </section>
 
-    <!-- CASES / REVIEWS SECTION (INFINITE SCROLL: SQUARE 350x350) -->
+    <!-- CASES / REVIEWS SECTION (INFINITE SCROLL: 11 PHOTOS - NATURAL SIZE) -->
     <section class="py-24 bg-[#080808] overflow-hidden">
         <div class="w-full">
             <h2 class="font-heading text-3xl font-bold uppercase text-center mb-16 text-white fade-in-up"><span class="text-evo-red">КЕЙСИ</span></h2>
