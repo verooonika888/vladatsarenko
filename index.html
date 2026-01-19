@@ -102,6 +102,40 @@
             transform: translateY(0);
         }
 
+        /* БЕГУЩАЯ СТРОКА (MARQUEE) */
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        
+        .animate-marquee {
+            display: flex;
+            width: max-content;
+            animation: marquee 60s linear infinite; /* Увеличил время, так как фото больше */
+        }
+        
+        /* Останавливать при наведении */
+        .animate-marquee:hover {
+            animation-play-state: paused;
+        }
+
+        /* Стили фото кейсов: гибкая ширина, фиксированная высота */
+        .case-img-container {
+            height: 500px; /* Фиксированная высота для ровной строки */
+            flex-shrink: 0;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+        }
+        
+        .case-img-container img {
+            width: auto;
+            height: 100%;
+            display: block;
+            /* Если картинка слишком широкая/узкая, она просто встанет как есть (благодаря w-auto h-full) */
+        }
+
         /* Стили инпутов */
         .evo-input {
             background: rgba(255, 255, 255, 0.05);
@@ -312,20 +346,47 @@
         </div>
     </section>
 
-    <!-- REVIEWS -->
-    <section class="py-24 bg-[#080808]">
-        <div class="container mx-auto px-6">
-            <h2 class="font-heading text-3xl font-bold uppercase text-center mb-16 text-white fade-in-up"><span class="text-evo-red">КЕЙСИ</span>
-            </h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="fade-in-up group overflow-hidden rounded-xl border border-white/10">
-                    <img src="rewiew1.JPG" alt="Review 1" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/400x600/111/666?text=Review+1'">
-                </div>
-                <div class="fade-in-up group overflow-hidden rounded-xl border border-white/10" style="transition-delay: 100ms;">
-                    <img src="rewiew2.JPG" alt="Review 2" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/400x600/111/666?text=Review+2'">
-                </div>
-                <div class="fade-in-up group overflow-hidden rounded-xl border border-white/10" style="transition-delay: 200ms;">
-                    <img src="rewiew3.JPG" alt="Review 3" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/400x600/111/666?text=Review+3'">
+    <!-- CASES / REVIEWS SECTION (INFINITE SCROLL: 12 PHOTOS) -->
+    <section class="py-24 bg-[#080808] overflow-hidden">
+        <div class="w-full">
+            <h2 class="font-heading text-3xl font-bold uppercase text-center mb-16 text-white fade-in-up"><span class="text-evo-red">КЕЙСИ</span></h2>
+
+            <div class="relative w-full overflow-hidden">
+                <!-- Градиентные маски по бокам для красоты -->
+                <div class="absolute top-0 left-0 h-full w-12 lg:w-32 bg-gradient-to-r from-[#050505] to-transparent z-10 pointer-events-none"></div>
+                <div class="absolute top-0 right-0 h-full w-12 lg:w-32 bg-gradient-to-l from-[#050505] to-transparent z-10 pointer-events-none"></div>
+
+                <!-- Лента с контентом (12 уникальных фото + дубликат для бесконечности) -->
+                <div class="animate-marquee flex gap-6 items-center">
+                    
+                    <!-- --- НАБОР 12 ФОТО --- -->
+                    <div class="case-img-container"><img src="case1.jpg" alt="Case 1"></div>
+                    <div class="case-img-container"><img src="case2.jpg" alt="Case 2"></div>
+                    <div class="case-img-container"><img src="case3.jpg" alt="Case 3"></div>
+                    <div class="case-img-container"><img src="case4.jpg" alt="Case 4"></div>
+                    <div class="case-img-container"><img src="case5.jpg" alt="Case 5"></div>
+                    <div class="case-img-container"><img src="case6.jpg" alt="Case 6"></div>
+                    <div class="case-img-container"><img src="case7.jpg" alt="Case 7"></div>
+                    <div class="case-img-container"><img src="case8.jpg" alt="Case 8"></div>
+                    <div class="case-img-container"><img src="case9.jpg" alt="Case 9"></div>
+                    <div class="case-img-container"><img src="case10.jpg" alt="Case 10"></div>
+                    <div class="case-img-container"><img src="case11.jpg" alt="Case 11"></div>
+                    <div class="case-img-container"><img src="case12.jpg" alt="Case 12"></div>
+
+                    <!-- --- ДУБЛИКАТ (для плавного цикла) --- -->
+                    <div class="case-img-container"><img src="case1.jpg" alt="Case 1"></div>
+                    <div class="case-img-container"><img src="case2.jpg" alt="Case 2"></div>
+                    <div class="case-img-container"><img src="case3.jpg" alt="Case 3"></div>
+                    <div class="case-img-container"><img src="case4.jpg" alt="Case 4"></div>
+                    <div class="case-img-container"><img src="case5.jpg" alt="Case 5"></div>
+                    <div class="case-img-container"><img src="case6.jpg" alt="Case 6"></div>
+                    <div class="case-img-container"><img src="case7.jpg" alt="Case 7"></div>
+                    <div class="case-img-container"><img src="case8.jpg" alt="Case 8"></div>
+                    <div class="case-img-container"><img src="case9.jpg" alt="Case 9"></div>
+                    <div class="case-img-container"><img src="case10.jpg" alt="Case 10"></div>
+                    <div class="case-img-container"><img src="case11.jpg" alt="Case 11"></div>
+                    <div class="case-img-container"><img src="case12.jpg" alt="Case 12"></div>
+
                 </div>
             </div>
         </div>
@@ -361,10 +422,9 @@
         <p class="text-gray-600 text-sm font-light tracking-wider">&copy; 2024 EVOLUTION BY VLADYSLAVA TSARENKO</p>
     </footer>
 
-    <!-- MODAL (POPUP) -->
+    <!-- MODAL 1: LEAD FORM -->
     <div id="modal-overlay" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 transition-all duration-300">
         <div class="relative w-full max-w-md p-2 m-4 fade-in-up visible" onclick="event.stopPropagation()">
-            <!-- Close Button -->
             <button onclick="closeModal()" class="absolute -top-12 right-0 text-white hover:text-evo-red transition-colors text-3xl font-light focus:outline-none">
                 &times;
             </button>
@@ -415,29 +475,28 @@
             document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
         });
 
-        // POPUP LOGIC
+        // --- POPUP FORM LOGIC ---
         const modal = document.getElementById('modal-overlay');
 
         function openModal() {
             modal.classList.remove('hidden');
             modal.classList.add('flex');
-            document.body.style.overflow = 'hidden'; // Блокируем скролл фона
+            document.body.style.overflow = 'hidden'; 
         }
 
         function closeModal() {
             modal.classList.add('hidden');
             modal.classList.remove('flex');
-            document.body.style.overflow = ''; // Разблокируем скролл
+            document.body.style.overflow = ''; 
         }
 
-        // Закрытие по клику на фон
         modal.addEventListener('click', function(e) {
             if (e.target === modal) {
                 closeModal();
             }
         });
 
-        // Обработка формы
+        // --- FORM SUBMIT ---
         const form = document.getElementById('leadForm');
         form.addEventListener('submit', function(e) {
             e.preventDefault();
@@ -449,7 +508,6 @@
             const formData = new FormData(form);
             const data = Object.fromEntries(formData);
             
-            // Вставьте ваш Web App URL от Google Script сюда
             const SCRIPT_URL = 'ВАШ_GOOGLE_SCRIPT_URL'; 
 
             if (SCRIPT_URL === 'ВАШ_GOOGLE_SCRIPT_URL') {
@@ -458,7 +516,7 @@
                     alert("Успішно! (Вставте посилання на Web App URL)");
                     btn.innerText = originalText;
                     btn.disabled = false;
-                    closeModal(); // Закрываем окно после успеха
+                    closeModal(); 
                 }, 1000);
             } else {
                 fetch(SCRIPT_URL, {
@@ -468,7 +526,6 @@
                     headers: { 'Content-Type': 'application/json' }
                 }).then(() => {
                     if(typeof fbq !== 'undefined') fbq('track', 'Lead');
-                    // РЕДИРЕКТ НА ВИДЕО
                     window.location.href = "video.html"; 
                 }).catch(err => {
                     alert('Помилка');
