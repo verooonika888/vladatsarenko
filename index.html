@@ -111,7 +111,7 @@
         .animate-marquee {
             display: flex;
             width: max-content;
-            animation: marquee 60s linear infinite; /* Увеличил время, так как фото больше */
+            animation: marquee 60s linear infinite; /* Скорость ленты */
         }
         
         /* Останавливать при наведении */
@@ -119,9 +119,12 @@
             animation-play-state: paused;
         }
 
-        /* Стили фото кейсов: гибкая ширина, фиксированная высота */
+        /* Стили фото кейсов: АДАПТАЦИЯ ПОД IPHONE 14 PRO MAX */
+        /* На мобильном высота 750px (почти весь экран), ширина авто (сохраняем пропорции) */
         .case-img-container {
-            height: 500px; /* Фиксированная высота для ровной строки */
+            height: 750px; 
+            /* Ширина подберется автоматически, но не шире экрана телефона (max-width: 90vw) */
+            max-width: 90vw; 
             flex-shrink: 0;
             background: rgba(255, 255, 255, 0.05);
             border-radius: 12px;
@@ -130,10 +133,23 @@
         }
         
         .case-img-container img {
-            width: auto;
+            width: 100%;
             height: 100%;
+            object-fit: cover; /* Заполняет блок, обрезая лишнее */
             display: block;
-            /* Если картинка слишком широкая/узкая, она просто встанет как есть (благодаря w-auto h-full) */
+        }
+        
+        /* На планшетах и ПК делаем поменьше, чтобы не занимало весь монитор */
+        @media (min-width: 768px) {
+            .case-img-container {
+                height: 600px;
+                width: auto;
+                max-width: none;
+            }
+            .case-img-container img {
+                width: auto;
+                object-fit: contain;
+            }
         }
 
         /* Стили инпутов */
@@ -346,20 +362,20 @@
         </div>
     </section>
 
-    <!-- CASES / REVIEWS SECTION (INFINITE SCROLL: 12 PHOTOS) -->
+    <!-- CASES / REVIEWS SECTION (INFINITE SCROLL: BIG PHOTOS) -->
     <section class="py-24 bg-[#080808] overflow-hidden">
         <div class="w-full">
             <h2 class="font-heading text-3xl font-bold uppercase text-center mb-16 text-white fade-in-up"><span class="text-evo-red">КЕЙСИ</span></h2>
 
             <div class="relative w-full overflow-hidden">
                 <!-- Градиентные маски по бокам для красоты -->
-                <div class="absolute top-0 left-0 h-full w-12 lg:w-32 bg-gradient-to-r from-[#050505] to-transparent z-10 pointer-events-none"></div>
-                <div class="absolute top-0 right-0 h-full w-12 lg:w-32 bg-gradient-to-l from-[#050505] to-transparent z-10 pointer-events-none"></div>
+                <div class="absolute top-0 left-0 h-full w-4 lg:w-32 bg-gradient-to-r from-[#050505] to-transparent z-10 pointer-events-none"></div>
+                <div class="absolute top-0 right-0 h-full w-4 lg:w-32 bg-gradient-to-l from-[#050505] to-transparent z-10 pointer-events-none"></div>
 
-                <!-- Лента с контентом (12 уникальных фото + дубликат для бесконечности) -->
-                <div class="animate-marquee flex gap-6 items-center">
+                <!-- Лента с контентом (11 уникальных фото + дубликат для бесконечности) -->
+                <div class="animate-marquee flex gap-4 lg:gap-6 items-center">
                     
-                    <!-- --- НАБОР 12 ФОТО --- -->
+                    <!-- --- НАБОР 11 ФОТО --- -->
                     <div class="case-img-container"><img src="rewiew1.JPG" alt="Case 1"></div>
                     <div class="case-img-container"><img src="rewiew2.JPG" alt="Case 2"></div>
                     <div class="case-img-container"><img src="rewiew3.JPG" alt="Case 3"></div>
@@ -371,7 +387,6 @@
                     <div class="case-img-container"><img src="rewiew9.JPG" alt="Case 9"></div>
                     <div class="case-img-container"><img src="rewiew10.JPG" alt="Case 10"></div>
                     <div class="case-img-container"><img src="rewiew11.JPG" alt="Case 11"></div>
-                   
 
                     <!-- --- ДУБЛИКАТ (для плавного цикла) --- -->
                     <div class="case-img-container"><img src="rewiew1.JPG" alt="Case 1"></div>
@@ -385,7 +400,6 @@
                     <div class="case-img-container"><img src="rewiew9.JPG" alt="Case 9"></div>
                     <div class="case-img-container"><img src="rewiew10.JPG" alt="Case 10"></div>
                     <div class="case-img-container"><img src="rewiew11.JPG" alt="Case 11"></div>
-                  
 
                 </div>
             </div>
