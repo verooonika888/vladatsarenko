@@ -14,9 +14,6 @@
     <!-- Иконки -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Библиотека для телефона (Intl Tel Input) CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/css/intlTelInput.css">
-
     <!-- FACEBOOK PIXEL -->
     <!-- Вставь сюда код пикселя -->
 
@@ -151,38 +148,12 @@
             border: 1px solid rgba(255, 255, 255, 0.15);
             color: white;
             transition: all 0.3s;
-            width: 100%;
         }
         .evo-input:focus {
             border-color: #FF2E2E;
             background: rgba(255, 255, 255, 0.08);
             outline: none;
             box-shadow: 0 0 15px rgba(255, 46, 46, 0.2);
-        }
-        .evo-input.error-border {
-            border-color: #ff2e2e;
-            box-shadow: 0 0 10px rgba(255, 46, 46, 0.5);
-            animation: shake 0.5s;
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
-        }
-
-        /* Кастомизация Intl Tel Input под темную тему */
-        .iti { width: 100%; }
-        .iti__flag-container { border-radius: 8px 0 0 8px; }
-        .iti__country-list {
-            background-color: #1a1a1a;
-            color: #fff;
-            border: 1px solid #333;
-        }
-        .iti__country { border-bottom: 1px solid #333; }
-        /* Цвет текста в инпуте телефона */
-        #phone {
-            padding-left: 50px !important; /* Отступ для флага */
         }
     </style>
 </head>
@@ -194,7 +165,6 @@
         <!-- МОБИЛЬНАЯ КАРТИНКА (iPhone layout) -->
         <div class="absolute bottom-0 right-[-15%] w-[100%] h-[75%] z-0 lg:hidden pointer-events-none">
             <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-red-gradient opacity-30 blur-[80px] rounded-full"></div>
-            <!-- Hero image is priority, no lazy loading here -->
             <img src="hero.png" class="w-full h-full object-contain object-bottom opacity-100" alt="Hero">
             <div class="absolute inset-0 bg-gradient-to-r from-[#050505] via-[#050505]/60 to-transparent"></div>
             <div class="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[#050505] to-transparent"></div>
@@ -225,7 +195,7 @@
                     </p>
 
                     <div class="pt-4 lg:pt-6 relative z-20">
-                        <!-- BUTTON 1 -->
+                        <!-- BUTTON 1 (Opens Modal) -->
                         <button onclick="openModal()" class="group relative inline-flex items-center justify-center px-8 lg:px-10 py-4 lg:py-5 bg-red-gradient text-white font-bold text-lg rounded-full shadow-[0_0_30px_rgba(255,46,46,0.3)] hover:shadow-[0_0_50px_rgba(255,46,46,0.5)] transition-all duration-300 transform hover:-translate-y-1 w-full lg:w-auto cursor-pointer">
                             <span class="relative z-10">ДИВИТИСЬ УРОК</span>
                             <div class="absolute inset-0 rounded-full bg-white opacity-0 group-hover:opacity-20 transition-opacity"></div>
@@ -237,7 +207,6 @@
                 <!-- DESKTOP IMAGE SIDE -->
                 <div class="hidden lg:flex lg:w-1/2 relative lg:h-screen items-end justify-end fade-in-up" style="transition-delay: 200ms;">
                     <div class="absolute top-1/2 right-10 -translate-y-1/2 w-[500px] h-[500px] bg-red-gradient opacity-20 blur-[120px] rounded-full z-0"></div>
-                    <!-- Hero image (eager load) -->
                     <img src="hero.png" 
                          alt="Vladyslava Tsarenko" 
                          class="relative z-10 w-auto h-[85vh] object-contain object-bottom drop-shadow-[0_20px_50px_rgba(0,0,0,0.8)]"
@@ -294,7 +263,7 @@
                 <p class="text-gray-400">Нічого не змінюючи — не буде нового результату!</p>
                 <p class="text-white font-bold mt-2">Але тобі пощастило, продажі можна зробити системою 👇</p>
                 
-                <!-- BUTTON 2 -->
+                <!-- BUTTON 2 (Opens Modal) -->
                 <div class="mt-8">
                     <button onclick="openModal()" class="group relative inline-flex items-center justify-center px-10 py-4 bg-red-gradient text-white font-bold text-lg rounded-full shadow-[0_0_30px_rgba(255,46,46,0.3)] hover:shadow-[0_0_50px_rgba(255,46,46,0.5)] transition-all duration-300 transform hover:-translate-y-1 w-full md:w-auto">
                         <span class="relative z-10">ДИВИТИСЬ УРОК</span>
@@ -345,7 +314,7 @@
                     👉 Нуль хаосу. Чітка система. Стабільні продажі.
                 </span>
 
-                <!-- BUTTON 3 -->
+                <!-- BUTTON 3 (Opens Modal) -->
                 <button onclick="openModal()" class="group relative inline-flex items-center justify-center px-10 py-4 bg-red-gradient text-white font-bold text-lg rounded-full shadow-[0_0_30px_rgba(255,46,46,0.3)] hover:shadow-[0_0_50px_rgba(255,46,46,0.5)] transition-all duration-300 transform hover:-translate-y-1 w-full md:w-auto">
                     <span class="relative z-10">ДИВИТИСЬ УРОК</span>
                     <div class="absolute inset-0 rounded-full bg-white opacity-0 group-hover:opacity-20 transition-opacity"></div>
@@ -376,11 +345,11 @@
                     </div>
                 </div>
                 
-                <!-- ФОТО (ИЗМЕНИЛ НА КВАДРАТ И УМЕНЬШИЛ) + LAZY LOAD -->
+                <!-- ФОТО (ИЗМЕНИЛ НА КВАДРАТ И УМЕНЬШИЛ) -->
                 <div class="lg:w-1/2 flex justify-center lg:justify-start fade-in-up">
-                    <div class="relative w-[300px] h-[300px] lg:w-[400px] lg:h-[400px]"> 
+                    <div class="relative w-[300px] h-[300px] lg:w-[400px] lg:h-[400px]"> <!-- УМЕНЬШИЛ И СДЕЛАЛ КВАДРАТНЫМ -->
                         <div class="absolute inset-0 border border-white/10 rounded-2xl transform translate-x-4 translate-y-4"></div>
-                        <img src="main.JPG" loading="lazy" alt="Владислава Царенко" class="relative z-10 w-full h-full object-cover rounded-2xl shadow-2xl grayscale-[20%] hover:grayscale-0 transition-all duration-500"
+                        <img src="main.JPG" alt="Владислава Царенко" class="relative z-10 w-full h-full object-cover rounded-2xl shadow-2xl grayscale-[20%] hover:grayscale-0 transition-all duration-500"
                         onerror="this.src='https://placehold.co/400x400/222/FFF?text=Bio+Photo';">
                     </div>
                 </div>
@@ -401,36 +370,36 @@
                 <div class="absolute top-0 left-0 h-full w-4 lg:w-32 bg-gradient-to-r from-[#050505] to-transparent z-10 pointer-events-none"></div>
                 <div class="absolute top-0 right-0 h-full w-4 lg:w-32 bg-gradient-to-l from-[#050505] to-transparent z-10 pointer-events-none"></div>
 
-                <!-- Лента с контентом + LAZY LOAD -->
+                <!-- Лента с контентом -->
                 <div class="animate-marquee flex gap-4 lg:gap-6 items-center">
                     
                     <!-- --- 12 ФОТО --- -->
-                    <div class="case-img-container" onclick="openImage('rewiew1.JPG')"><img src="rewiew1.JPG" loading="lazy" alt="Case 1"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew2.JPG')"><img src="rewiew2.JPG" loading="lazy" alt="Case 2"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew3.JPG')"><img src="rewiew3.JPG" loading="lazy" alt="Case 3"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew4.JPG')"><img src="rewiew4.JPG" loading="lazy" alt="Case 4"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew5.JPG')"><img src="rewiew5.JPG" loading="lazy" alt="Case 5"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew6.JPG')"><img src="rewiew6.JPG" loading="lazy" alt="Case 6"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew7.JPG')"><img src="rewiew7.JPG" loading="lazy" alt="Case 7"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew8.JPG')"><img src="rewiew8.JPG" loading="lazy" alt="Case 8"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew9.JPG')"><img src="rewiew9.JPG" loading="lazy" alt="Case 9"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew10.JPG')"><img src="rewiew10.JPG" loading="lazy" alt="Case 10"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew11.JPG')"><img src="rewiew11.JPG" loading="lazy" alt="Case 11"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew12.JPG')"><img src="rewiew12.JPG" loading="lazy" alt="Case 12"></div>
+                    <div class="case-img-container" onclick="openImage('rewiew1.JPG')"><img src="rewiew1.JPG" alt="Case 1"></div>
+                    <div class="case-img-container" onclick="openImage('rewiew2.JPG')"><img src="rewiew2.JPG" alt="Case 2"></div>
+                    <div class="case-img-container" onclick="openImage('rewiew3.JPG')"><img src="rewiew3.JPG" alt="Case 3"></div>
+                    <div class="case-img-container" onclick="openImage('rewiew4.JPG')"><img src="rewiew4.JPG" alt="Case 4"></div>
+                    <div class="case-img-container" onclick="openImage('rewiew5.JPG')"><img src="rewiew5.JPG" alt="Case 5"></div>
+                    <div class="case-img-container" onclick="openImage('rewiew6.JPG')"><img src="rewiew6.JPG" alt="Case 6"></div>
+                    <div class="case-img-container" onclick="openImage('rewiew7.JPG')"><img src="rewiew7.JPG" alt="Case 7"></div>
+                    <div class="case-img-container" onclick="openImage('rewiew8.JPG')"><img src="rewiew8.JPG" alt="Case 8"></div>
+                    <div class="case-img-container" onclick="openImage('rewiew9.JPG')"><img src="rewiew9.JPG" alt="Case 9"></div>
+                    <div class="case-img-container" onclick="openImage('rewiew10.JPG')"><img src="rewiew10.JPG" alt="Case 10"></div>
+                    <div class="case-img-container" onclick="openImage('rewiew11.JPG')"><img src="rewiew11.JPG" alt="Case 11"></div>
+                    <div class="case-img-container" onclick="openImage('rewiew12.JPG')"><img src="rewiew12.JPG" alt="Case 12"></div>
 
                     <!-- ДУБЛИКАТЫ (для бесконечности) -->
-                    <div class="case-img-container" onclick="openImage('rewiew1.JPG')"><img src="rewiew1.JPG" loading="lazy" alt="Case 1"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew2.JPG')"><img src="rewiew2.JPG" loading="lazy" alt="Case 2"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew3.JPG')"><img src="rewiew3.JPG" loading="lazy" alt="Case 3"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew4.JPG')"><img src="rewiew4.JPG" loading="lazy" alt="Case 4"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew5.JPG')"><img src="rewiew5.JPG" loading="lazy" alt="Case 5"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew6.JPG')"><img src="rewiew6.JPG" loading="lazy" alt="Case 6"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew7.JPG')"><img src="rewiew7.JPG" loading="lazy" alt="Case 7"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew8.JPG')"><img src="rewiew8.JPG" loading="lazy" alt="Case 8"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew9.JPG')"><img src="rewiew9.JPG" loading="lazy" alt="Case 9"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew10.JPG')"><img src="rewiew10.JPG" loading="lazy" alt="Case 10"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew11.JPG')"><img src="rewiew11.JPG" loading="lazy" alt="Case 11"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew12.JPG')"><img src="rewiew12.JPG" loading="lazy" alt="Case 12"></div>
+                    <div class="case-img-container" onclick="openImage('rewiew1.JPG')"><img src="rewiew1.JPG" alt="Case 1"></div>
+                    <div class="case-img-container" onclick="openImage('rewiew2.JPG')"><img src="rewiew2.JPG" alt="Case 2"></div>
+                    <div class="case-img-container" onclick="openImage('rewiew3.JPG')"><img src="rewiew3.JPG" alt="Case 3"></div>
+                    <div class="case-img-container" onclick="openImage('rewiew4.JPG')"><img src="rewiew4.JPG" alt="Case 4"></div>
+                    <div class="case-img-container" onclick="openImage('rewiew5.JPG')"><img src="rewiew5.JPG" alt="Case 5"></div>
+                    <div class="case-img-container" onclick="openImage('rewiew6.JPG')"><img src="rewiew6.JPG" alt="Case 6"></div>
+                    <div class="case-img-container" onclick="openImage('rewiew7.JPG')"><img src="rewiew7.JPG" alt="Case 7"></div>
+                    <div class="case-img-container" onclick="openImage('rewiew8.JPG')"><img src="rewiew8.JPG" alt="Case 8"></div>
+                    <div class="case-img-container" onclick="openImage('rewiew9.JPG')"><img src="rewiew9.JPG" alt="Case 9"></div>
+                    <div class="case-img-container" onclick="openImage('rewiew10.JPG')"><img src="rewiew10.JPG" alt="Case 10"></div>
+                    <div class="case-img-container" onclick="openImage('rewiew11.JPG')"><img src="rewiew11.JPG" alt="Case 11"></div>
+                    <div class="case-img-container" onclick="openImage('rewiew12.JPG')"><img src="rewiew12.JPG" alt="Case 12"></div>
 
                 </div>
             </div>
@@ -452,7 +421,7 @@
                 </p>
             </div>
 
-            <!-- BUTTON 4 -->
+            <!-- BUTTON 4 (Opens Modal) -->
             <div class="fade-in-up">
                 <button onclick="openModal()" class="group relative inline-flex items-center justify-center px-10 py-5 bg-red-gradient text-white font-bold text-lg rounded-full shadow-[0_0_30px_rgba(255,46,46,0.3)] hover:shadow-[0_0_50px_rgba(255,46,46,0.5)] transition-all duration-300 transform hover:-translate-y-1 w-full md:w-auto">
                     <span class="relative z-10">ДИВИТИСЬ УРОК</span>
@@ -467,7 +436,7 @@
         <p class="text-gray-600 text-sm font-light tracking-wider">&copy; 2024 EVOLUTION BY VLADYSLAVA TSARENKO</p>
     </footer>
 
-    <!-- MODAL 1: LEAD FORM (UPDATED) -->
+    <!-- MODAL 1: LEAD FORM -->
     <div id="modal-overlay" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 transition-all duration-300">
         <div class="relative w-full max-w-md p-2 m-4 fade-in-up visible" onclick="event.stopPropagation()">
             <button onclick="closeModal()" class="absolute -top-12 right-0 text-white hover:text-evo-red transition-colors text-3xl font-light focus:outline-none">
@@ -480,22 +449,17 @@
                     <p class="text-gray-400 text-sm">Введіть дані для входу в кабінет</p>
                 </div>
 
-                <form id="leadForm" class="space-y-6">
+                <form id="leadForm" class="space-y-4">
                     <div>
                         <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-2">Ваше Ім'я</label>
-                        <input type="text" id="name" name="name" required placeholder="Введіть ім'я" 
+                        <input type="text" name="name" required placeholder="Введіть ім'я" 
                                class="w-full px-5 py-3 rounded-lg evo-input font-medium placeholder-gray-600 text-sm focus:bg-white/10 transition-colors">
                     </div>
 
                     <div>
                         <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-2">Ваш Телефон</label>
-                        <input type="tel" id="phone" name="phone" required 
-                               class="w-full py-3 rounded-lg evo-input font-medium placeholder-gray-600 text-sm focus:bg-white/10 transition-colors">
-                    </div>
-
-                    <!-- Контейнер ошибки (Анимация и текст) -->
-                    <div id="form-error" class="hidden text-center">
-                        <p class="text-evo-red text-xs font-bold uppercase tracking-wide animate-pulse mb-2">⚠️ <span id="error-text">Помилка</span></p>
+                        <input type="tel" name="phone" required placeholder="+38 (0XX) XXX XX XX" 
+                               class="w-full px-5 py-3 rounded-lg evo-input font-medium placeholder-gray-600 text-sm focus:bg-white/10 transition-colors">
                     </div>
 
                     <button type="submit" class="w-full py-4 mt-2 bg-red-gradient text-white font-heading font-bold text-lg tracking-wide rounded-lg shadow-lg shadow-red-900/40 hover:shadow-red-900/60 transform hover:-translate-y-1 transition-all duration-300">
@@ -510,7 +474,7 @@
         </div>
     </div>
 
-    <!-- MODAL 2: IMAGE LIGHTBOX -->
+    <!-- MODAL 2: IMAGE LIGHTBOX (Для увеличения фото) -->
     <div id="image-modal-overlay" class="fixed inset-0 z-[60] hidden items-center justify-center bg-black/95 transition-all duration-300 cursor-pointer" onclick="closeImage()">
         <button onclick="closeImage()" class="absolute top-5 right-5 text-white hover:text-evo-red transition-colors text-4xl font-light focus:outline-none z-[70]">
             &times;
@@ -520,9 +484,6 @@
             <img id="modal-image-viewer" src="" class="max-w-full max-h-full object-contain rounded-lg shadow-2xl" onclick="event.stopPropagation()">
         </div>
     </div>
-
-    <!-- JS Libs -->
-    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/intlTelInput.min.js"></script>
 
     <!-- JS Logic -->
     <script>
@@ -552,9 +513,6 @@
             modal.classList.add('hidden');
             modal.classList.remove('flex');
             document.body.style.overflow = ''; 
-            // Reset form errors on close
-            document.getElementById('form-error').classList.add('hidden');
-            document.querySelectorAll('.evo-input').forEach(i => i.classList.remove('error-border'));
         }
 
         modal.addEventListener('click', function(e) {
@@ -571,105 +529,54 @@
             imageViewer.src = src;
             imageModal.classList.remove('hidden');
             imageModal.classList.add('flex');
-            document.body.style.overflow = 'hidden'; 
+            document.body.style.overflow = 'hidden'; // Block scroll
         }
 
         function closeImage() {
             imageModal.classList.add('hidden');
             imageModal.classList.remove('flex');
             document.body.style.overflow = ''; 
-            setTimeout(() => { imageViewer.src = ''; }, 300); 
+            setTimeout(() => { imageViewer.src = ''; }, 300); // Clear after fade out
         }
 
-        // --- PHONE INPUT CONFIGURATION (intl-tel-input) ---
-        const phoneInput = document.querySelector("#phone");
-        const iti = window.intlTelInput(phoneInput, {
-            initialCountry: "auto",
-            excludeCountries: ["ru", "by"], // Исключаем RU и BY
-            utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/utils.js",
-            geoIpLookup: function(callback) {
-                fetch("https://ipapi.co/json")
-                .then(function(res) { return res.json(); })
-                .then(function(data) { callback(data.country_code); })
-                .catch(function() { callback("ua"); });
-            }
-        });
-
-        // --- FORM SUBMIT & VALIDATION ---
+        // --- FORM SUBMIT ---
         const form = document.getElementById('leadForm');
-        const errorContainer = document.getElementById('form-error');
-        const errorText = document.getElementById('error-text');
-        const nameInput = document.getElementById('name');
-
         form.addEventListener('submit', function(e) {
             e.preventDefault();
-            
-            // Сброс ошибок
-            errorContainer.classList.add('hidden');
-            nameInput.classList.remove('error-border');
-            phoneInput.classList.remove('error-border');
-
-            // 1. Валидация Имени (без цифр)
-            const nameValue = nameInput.value.trim();
-            if (/\d/.test(nameValue)) {
-                showError("Ім'я не може містити цифри");
-                nameInput.classList.add('error-border');
-                return;
-            }
-
-            // 2. Валидация Телефона
-            if (!iti.isValidNumber()) {
-                showError("Невірний формат номеру телефону. Перевірте, будь ласка.");
-                phoneInput.classList.add('error-border');
-                return;
-            }
-
-            // Если все ок - отправляем
             const btn = form.querySelector('button');
             const originalText = btn.innerText;
             btn.innerText = "ЗАВАНТАЖЕННЯ...";
             btn.disabled = true;
 
-            // Формируем данные
-            const fullPhone = iti.getNumber();
-            const data = {
-                name: nameValue,
-                phone: fullPhone
-            };
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData);
             
-            // ВАЖНО: ВСТАВЬТЕ СЮДА ВАШ URL ИЗ GOOGLE APPS SCRIPT
-            const SCRIPT_URL = https://script.google.com/macros/s/AKfycbzm7Wh_S9ntGKP18IRY1WC0wXOWZoR3n02rnSY3YN0lBj2EwN0vhX4zMkafWOg-9KDscg/exec; 
+            const SCRIPT_URL = 'ВАШ_GOOGLE_SCRIPT_URL'; 
 
-            if (SCRIPT_URL === 'ВАШ_GOOGLE_SCRIPT_URL_СЮДА') {
-                // Демонстрация (если URL не вставлен)
+            if (SCRIPT_URL === 'ВАШ_GOOGLE_SCRIPT_URL') {
                 setTimeout(() => {
-                    console.log("Data to send:", data);
-                    alert("Успішно! (Не забудьте додати Web App URL в код)");
+                    if(typeof fbq !== 'undefined') fbq('track', 'Lead');
+                    alert("Успішно! (Вставте посилання на Web App URL)");
                     btn.innerText = originalText;
                     btn.disabled = false;
-                    closeModal();
-                }, 1500);
+                    closeModal(); 
+                }, 1000);
             } else {
                 fetch(SCRIPT_URL, {
                     method: 'POST',
                     body: JSON.stringify(data),
-                    mode: 'no-cors', // Важно для Google Script
+                    mode: 'no-cors',
                     headers: { 'Content-Type': 'application/json' }
                 }).then(() => {
                     if(typeof fbq !== 'undefined') fbq('track', 'Lead');
-                    window.location.href = "video.html"; // Перенаправление на страницу спасибо/видео
+                    window.location.href = "video.html"; 
                 }).catch(err => {
-                    showError("Помилка з'єднання. Спробуйте пізніше.");
+                    alert('Помилка');
                     btn.innerText = originalText;
                     btn.disabled = false;
                 });
             }
         });
-
-        function showError(msg) {
-            errorText.innerText = msg;
-            errorContainer.classList.remove('hidden');
-        }
     </script>
 </body>
 </html>
