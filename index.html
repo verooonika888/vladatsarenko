@@ -601,9 +601,6 @@
         const errorText = document.getElementById('error-text');
         const nameInput = document.getElementById('name');
 
-        // URL вашего Google Apps Script (Тот, что вы прислали)
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxBFcWB61ZDy-vF9t-Xm5AJNTnwCU559r5JMv4qWZ0vQGZV1Mlyf4qCNMbCynZxvSPWww/exec';
-
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -640,24 +637,33 @@
                 phone: fullPhone
             };
             
-            // Отправляем данные
-            fetch(SCRIPT_URL, {
-                method: 'POST',
-                body: JSON.stringify(data),
-                mode: 'no-cors', // Важно для Google Script
-                headers: { 'Content-Type': 'application/json' }
-            }).then(() => {
-                if(typeof fbq !== 'undefined') fbq('track', 'Lead');
-                
-                // --- ВСТАВЬТЕ ССЫЛКУ НА ВАШЕГО БОТА ТУТ ---
-                window.location.href = 'https://t.me/ВАШ_БОТ'; 
-                // ------------------------------------------
-                
-            }).catch(err => {
-                showError("Помилка з'єднання. Спробуйте пізніше.");
-                btn.innerText = originalText;
-                btn.disabled = false;
-            });
+            // ВАЖНО: ВСТАВЬТЕ СЮДА ВАШ URL ИЗ GOOGLE APPS SCRIPT
+            const SCRIPT_URL = 'ВАШ_GOOGLE_SCRIPT_URL_СЮДА'; 
+
+            if (SCRIPT_URL === 'ВАШ_GOOGLE_SCRIPT_URL_СЮДА') {
+                // Демонстрация (если URL не вставлен)
+                setTimeout(() => {
+                    console.log("Data to send:", data);
+                    alert("Успішно! (Не забудьте додати Web App URL в код)");
+                    btn.innerText = originalText;
+                    btn.disabled = false;
+                    closeModal();
+                }, 1500);
+            } else {
+                fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(data),
+                    mode: 'no-cors', // Важно для Google Script
+                    headers: { 'Content-Type': 'application/json' }
+                }).then(() => {
+                    if(typeof fbq !== 'undefined') fbq('track', 'Lead');
+                    window.location.href = "video.html"; // Перенаправление на страницу спасибо/видео
+                }).catch(err => {
+                    showError("Помилка з'єднання. Спробуйте пізніше.");
+                    btn.innerText = originalText;
+                    btn.disabled = false;
+                });
+            }
         });
 
         function showError(msg) {
