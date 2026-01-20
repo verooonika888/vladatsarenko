@@ -637,32 +637,23 @@
                 phone: fullPhone
             };
             
-            // ВАЖНО: ВСТАВЬТЕ СЮДА ВАШ URL ИЗ GOOGLE APPS SCRIPT
+            // URL Google Web App
+            const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzm7Wh_S9ntGKP18IRY1WC0wXOWZoR3n02rnSY3YN0lBj2EwN0vhX4zMkafWOg-9KDscg/exec';
 
-            if (SCRIPT_URL === '            const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzm7Wh_S9ntGKP18IRY1WC0wXOWZoR3n02rnSY3YN0lBj2EwN0vhX4zMkafWOg-9KDscg/exec; ') {
-                // Демонстрация (если URL не вставлен)
-                setTimeout(() => {
-                    console.log("Data to send:", data);
-                    alert("Успішно! (Не забудьте додати Web App URL в код)");
-                    btn.innerText = originalText;
-                    btn.disabled = false;
-                    closeModal();
-                }, 1500);
-            } else {
-                fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    body: JSON.stringify(data),
-                    mode: 'no-cors', // Важно для Google Script
-                    headers: { 'Content-Type': 'application/json' }
-                }).then(() => {
-                    if(typeof fbq !== 'undefined') fbq('track', 'Lead');
-                    window.location.href = "video.html"; // Перенаправление на страницу спасибо/видео
-                }).catch(err => {
-                    showError("Помилка з'єднання. Спробуйте пізніше.");
-                    btn.innerText = originalText;
-                    btn.disabled = false;
-                });
-            }
+            // Отправляем данные сразу
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify(data),
+                mode: 'no-cors', // Важно для Google Script
+                headers: { 'Content-Type': 'application/json' }
+            }).then(() => {
+                if(typeof fbq !== 'undefined') fbq('track', 'Lead');
+                window.location.href = "video.html"; // Перенаправление на страницу спасибо/видео
+            }).catch(err => {
+                showError("Помилка з'єднання. Спробуйте пізніше.");
+                btn.innerText = originalText;
+                btn.disabled = false;
+            });
         });
 
         function showError(msg) {
