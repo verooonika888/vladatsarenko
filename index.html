@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/css/intlTelInput.css">
 
     <!-- FACEBOOK PIXEL -->
-    <!-- Вставь сюда код пикселя -->
+    <!-- Вставь сюда код пикселя, если нужно -->
 
     <script>
         tailwind.config = {
@@ -28,7 +28,7 @@
                         evo: {
                             bg: '#050505',      /* Глубокий черный фон */
                             card: '#0F0F0F',    /* Цвет карточек */
-                            red: '#FF2E2E',     /* Яркий красный акцент из презентации */
+                            red: '#FF2E2E',     /* Яркий красный акцент */
                             text: '#E5E5E5',    /* Светло-серый текст */
                             gray: '#2A2A2A'     /* Границы */
                         }
@@ -131,9 +131,11 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             overflow: hidden;
             cursor: pointer; /* Курсор-рука */
-            
-            /* На мобильных высоту делаем 250px */
-            @media (max-width: 640px) {
+        }
+
+        /* На мобильных высоту делаем меньше */
+        @media (max-width: 640px) {
+            .case-img-container {
                 height: 250px;
             }
         }
@@ -586,6 +588,7 @@
         const iti = window.intlTelInput(phoneInput, {
             initialCountry: "auto",
             excludeCountries: ["ru", "by"], // Исключаем RU и BY
+            preferredCountries: ["ua", "pl", "de", "gb", "cz", "it", "es", "fr"], // Предпочтительные страны
             utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/utils.js",
             geoIpLookup: function(callback) {
                 fetch("https://ipapi.co/json")
@@ -600,6 +603,9 @@
         const errorContainer = document.getElementById('form-error');
         const errorText = document.getElementById('error-text');
         const nameInput = document.getElementById('name');
+        
+        // ВАША ССЫЛКА НА GOOGLE APPS SCRIPT
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzm7Wh_S9ntGKP18IRY1WC0wXOWZoR3n02rnSY3YN0lBj2EwN0vhX4zMkafWOg-9KDscg/exec';
 
         form.addEventListener('submit', function(e) {
             e.preventDefault();
@@ -636,34 +642,23 @@
                 name: nameValue,
                 phone: fullPhone
             };
-            
-            // ВАЖНО: ВСТАВЬТЕ СЮДА ВАШ URL ИЗ GOOGLE APPS SCRIPT
-            const SCRIPT_URL = 'ВАШ_GOOGLE_SCRIPT_URL_СЮДА'; 
 
-            if (SCRIPT_URL === 'ВАШ_GOOGLE_SCRIPT_URL_СЮДА') {
-                // Демонстрация (если URL не вставлен)
-                setTimeout(() => {
-                    console.log("Data to send:", data);
-                    alert("Успішно! (Не забудьте додати Web App URL в код)");
-                    btn.innerText = originalText;
-                    btn.disabled = false;
-                    closeModal();
-                }, 1500);
-            } else {
-                fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    body: JSON.stringify(data),
-                    mode: 'no-cors', // Важно для Google Script
-                    headers: { 'Content-Type': 'application/json' }
-                }).then(() => {
-                    if(typeof fbq !== 'undefined') fbq('track', 'Lead');
-                    window.location.href = "video.html"; // Перенаправление на страницу спасибо/видео
-                }).catch(err => {
-                    showError("Помилка з'єднання. Спробуйте пізніше.");
-                    btn.innerText = originalText;
-                    btn.disabled = false;
-                });
-            }
+            // Отправка в Google Sheet
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify(data),
+                mode: 'no-cors', // Важно для Google Script без настройки CORS
+                headers: { 'Content-Type': 'application/json' }
+            }).then(() => {
+                // Если успешно (при no-cors ответ всегда 'opaque', считаем успешным, если нет сетевой ошибки)
+                if(typeof fbq !== 'undefined') fbq('track', 'Lead'); // Facebook Pixel Event
+                window.location.href = "video.html"; // Перенаправление на страницу видео
+            }).catch(err => {
+                console.error("Error:", err);
+                showError("Помилка з'єднання. Спробуйте пізніше.");
+                btn.innerText = originalText;
+                btn.disabled = false;
+            });
         });
 
         function showError(msg) {
