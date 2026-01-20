@@ -378,7 +378,7 @@
                     </div>
                 </div>
                 
-                <!-- ФОТО (ИЗМЕНИЛ НА КВАДРАТ И УМЕНЬШИЛ) + LAZY LOAD -->
+                <!-- ФОТО -->
                 <div class="lg:w-1/2 flex justify-center lg:justify-start fade-in-up">
                     <div class="relative w-[300px] h-[300px] lg:w-[400px] lg:h-[400px]"> 
                         <div class="absolute inset-0 border border-white/10 rounded-2xl transform translate-x-4 translate-y-4"></div>
@@ -604,8 +604,8 @@
         const errorText = document.getElementById('error-text');
         const nameInput = document.getElementById('name');
         
-        // ВАША ССЫЛКА НА GOOGLE APPS SCRIPT
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzm7Wh_S9ntGKP18IRY1WC0wXOWZoR3n02rnSY3YN0lBj2EwN0vhX4zMkafWOg-9KDscg/exec';
+        // ВАША ССЫЛКА НА GOOGLE APPS SCRIPT (ОБНОВЛЕНА)
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxBFcWB61ZDy-vF9t-Xm5AJNTnwCU559r5JMv4qWZ0vQGZV1Mlyf4qCNMbCynZxvSPWww/exec';
 
         form.addEventListener('submit', function(e) {
             e.preventDefault();
@@ -650,9 +650,11 @@
                 mode: 'no-cors', // Важно для Google Script без настройки CORS
                 headers: { 'Content-Type': 'application/json' }
             }).then(() => {
-                // Если успешно (при no-cors ответ всегда 'opaque', считаем успешным, если нет сетевой ошибки)
                 if(typeof fbq !== 'undefined') fbq('track', 'Lead'); // Facebook Pixel Event
-                window.location.href = "video.html"; // Перенаправление на страницу видео
+                
+                // ЗАМЕНИТЕ ЭТУ ССЫЛКУ НА ВАШЕ ВИДЕО:
+                window.location.href = "https://www.youtube.com/"; 
+                
             }).catch(err => {
                 console.error("Error:", err);
                 showError("Помилка з'єднання. Спробуйте пізніше.");
