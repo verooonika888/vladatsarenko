@@ -1,5 +1,3 @@
-<!-- START OF FILE index.html -->
-
 <!DOCTYPE html>
 <html lang="uk">
 <head>
@@ -7,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EVOLUTION | Владислава Царенко</title>
     
-    <!-- Подключение Tailwind CSS -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Шрифты (Montserrat + Inter) -->
@@ -16,8 +14,8 @@
     <!-- Иконки -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- FACEBOOK PIXEL -->
-    <!-- Вставь сюда код пикселя -->
+    <!-- International Telephone Input CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/css/intlTelInput.css">
 
     <script>
         tailwind.config = {
@@ -25,11 +23,11 @@
                 extend: {
                     colors: {
                         evo: {
-                            bg: '#050505',      /* Глубокий черный фон */
-                            card: '#0F0F0F',    /* Цвет карточек */
-                            red: '#FF2E2E',     /* Яркий красный акцент из презентации */
-                            text: '#E5E5E5',    /* Светло-серый текст */
-                            gray: '#2A2A2A'     /* Границы */
+                            bg: '#050505',
+                            card: '#0F0F0F',
+                            red: '#FF2E2E',
+                            text: '#E5E5E5',
+                            gray: '#2A2A2A'
                         }
                     },
                     fontFamily: {
@@ -39,6 +37,17 @@
                     backgroundImage: {
                         'red-gradient': 'linear-gradient(135deg, #FF2E2E 0%, #990000 100%)',
                         'glow': 'radial-gradient(circle, rgba(255,46,46,0.15) 0%, rgba(5,5,5,0) 70%)'
+                    },
+                    animation: {
+                        'shake': 'shake 0.5s cubic-bezier(.36,.07,.19,.97) both',
+                    },
+                    keyframes: {
+                        shake: {
+                            '10%, 90%': { transform: 'translate3d(-1px, 0, 0)' },
+                            '20%, 80%': { transform: 'translate3d(2px, 0, 0)' },
+                            '30%, 50%, 70%': { transform: 'translate3d(-4px, 0, 0)' },
+                            '40%, 60%': { transform: 'translate3d(4px, 0, 0)' }
+                        }
                     }
                 }
             }
@@ -102,7 +111,7 @@
             transform: translateY(0);
         }
 
-        /* БЕГУЩАЯ СТРОКА (MARQUEE) */
+        /* БЕГУЩАЯ СТРОКА */
         @keyframes marquee {
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); }
@@ -111,17 +120,14 @@
         .animate-marquee {
             display: flex;
             width: max-content;
-            animation: marquee 60s linear infinite; /* Скорость ленты */
+            animation: marquee 60s linear infinite;
         }
         
-        /* Останавливать при наведении */
         .animate-marquee:hover {
             animation-play-state: paused;
         }
 
-        /* Стили фото кейсов: НАТУРАЛЬНЫЕ ПРОПОРЦИИ */
         .case-img-container {
-            /* Высота на ПК: 400px (крупно) */
             height: 400px; 
             width: auto;
             flex-shrink: 0;
@@ -129,10 +135,11 @@
             border-radius: 12px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             overflow: hidden;
-            cursor: pointer; /* Курсор-рука */
-            
-            /* На мобильных высоту делаем 250px */
-            @media (max-width: 640px) {
+            cursor: pointer;
+        }
+        
+        @media (max-width: 640px) {
+            .case-img-container {
                 height: 250px;
             }
         }
@@ -157,6 +164,37 @@
             outline: none;
             box-shadow: 0 0 15px rgba(255, 46, 46, 0.2);
         }
+        .input-error {
+            border-color: #FF2E2E !important;
+            box-shadow: 0 0 10px rgba(255, 46, 46, 0.4);
+            animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+        }
+
+        /* Налаштування стилів для intl-tel-input в темній темі */
+        .iti {
+            width: 100%;
+            display: block;
+        }
+        .iti__dropdown-content {
+            background-color: #1a1a1a;
+            border-color: #333;
+            color: white;
+        }
+        .iti__country-list {
+            background-color: #1a1a1a;
+        }
+        .iti__country:hover {
+            background-color: #333;
+        }
+        /* Змушуємо інпут телефону бути прозорим/темним як інші */
+        #phone-input {
+            background: rgba(255, 255, 255, 0.05) !important;
+            color: white !important;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        #phone-input:focus {
+            border-color: #FF2E2E;
+        }
     </style>
 </head>
 <body class="antialiased overflow-x-hidden selection:bg-evo-red selection:text-white">
@@ -164,15 +202,15 @@
     <!-- HERO SECTION -->
     <section class="relative min-h-[90vh] lg:min-h-screen flex items-center pt-24 pb-0 lg:pt-0 overflow-hidden">
         
-        <!-- МОБИЛЬНАЯ КАРТИНКА (iPhone layout) -->
+        <!-- МОБИЛЬНАЯ КАРТИНКА -->
         <div class="absolute bottom-0 right-[-15%] w-[100%] h-[75%] z-0 lg:hidden pointer-events-none">
             <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-red-gradient opacity-30 blur-[80px] rounded-full"></div>
+            <!-- Hero Image - Eager Load -->
             <img src="hero.png" class="w-full h-full object-contain object-bottom opacity-100" alt="Hero">
             <div class="absolute inset-0 bg-gradient-to-r from-[#050505] via-[#050505]/60 to-transparent"></div>
             <div class="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[#050505] to-transparent"></div>
         </div>
 
-        <!-- Фоны и свечения (Desktop) -->
         <div class="red-glow-spot top-0 left-0 -translate-x-1/2 -translate-y-1/2"></div>
         <i class="fa-solid fa-star sparkle top-20 right-20 text-xs"></i>
         <i class="fa-solid fa-star sparkle bottom-40 left-10 text-sm" style="animation-delay: 0.5s"></i>
@@ -180,7 +218,6 @@
         <div class="container mx-auto px-6 relative z-10 h-full">
             <div class="flex flex-col lg:flex-row items-center justify-between h-full">
                 
-                <!-- TEXT SIDE -->
                 <div class="w-full lg:w-1/2 space-y-6 lg:space-y-8 fade-in-up z-20 pb-12 lg:pb-0 pt-4 lg:pt-0">
                     <div class="inline-flex items-center gap-2 px-4 py-1 rounded-full border border-evo-red/30 bg-evo-red/10 backdrop-blur-md">
                         <span class="w-2 h-2 rounded-full bg-evo-red animate-pulse"></span>
@@ -197,7 +234,6 @@
                     </p>
 
                     <div class="pt-4 lg:pt-6 relative z-20">
-                        <!-- BUTTON 1 (Opens Modal) -->
                         <button onclick="openModal()" class="group relative inline-flex items-center justify-center px-8 lg:px-10 py-4 lg:py-5 bg-red-gradient text-white font-bold text-lg rounded-full shadow-[0_0_30px_rgba(255,46,46,0.3)] hover:shadow-[0_0_50px_rgba(255,46,46,0.5)] transition-all duration-300 transform hover:-translate-y-1 w-full lg:w-auto cursor-pointer">
                             <span class="relative z-10">ДИВИТИСЬ УРОК</span>
                             <div class="absolute inset-0 rounded-full bg-white opacity-0 group-hover:opacity-20 transition-opacity"></div>
@@ -209,6 +245,7 @@
                 <!-- DESKTOP IMAGE SIDE -->
                 <div class="hidden lg:flex lg:w-1/2 relative lg:h-screen items-end justify-end fade-in-up" style="transition-delay: 200ms;">
                     <div class="absolute top-1/2 right-10 -translate-y-1/2 w-[500px] h-[500px] bg-red-gradient opacity-20 blur-[120px] rounded-full z-0"></div>
+                    <!-- Hero Image - Eager Load -->
                     <img src="hero.png" 
                          alt="Vladyslava Tsarenko" 
                          class="relative z-10 w-auto h-[85vh] object-contain object-bottom drop-shadow-[0_20px_50px_rgba(0,0,0,0.8)]"
@@ -265,7 +302,6 @@
                 <p class="text-gray-400">Нічого не змінюючи — не буде нового результату!</p>
                 <p class="text-white font-bold mt-2">Але тобі пощастило, продажі можна зробити системою 👇</p>
                 
-                <!-- BUTTON 2 (Opens Modal) -->
                 <div class="mt-8">
                     <button onclick="openModal()" class="group relative inline-flex items-center justify-center px-10 py-4 bg-red-gradient text-white font-bold text-lg rounded-full shadow-[0_0_30px_rgba(255,46,46,0.3)] hover:shadow-[0_0_50px_rgba(255,46,46,0.5)] transition-all duration-300 transform hover:-translate-y-1 w-full md:w-auto">
                         <span class="relative z-10">ДИВИТИСЬ УРОК</span>
@@ -293,7 +329,6 @@
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <!-- Results cards... -->
                 <div class="glass-card p-8 rounded-2xl relative group hover:-translate-y-2 transition-transform duration-300 fade-in-up">
                     <div class="absolute -top-4 left-8 bg-evo-red text-white text-xs font-bold px-3 py-1 rounded shadow-lg shadow-red-900/50">01</div>
                     <h3 class="font-heading font-bold text-white text-lg mb-4 mt-2">Стабільний потік заявок</h3>
@@ -316,7 +351,6 @@
                     👉 Нуль хаосу. Чітка система. Стабільні продажі.
                 </span>
 
-                <!-- BUTTON 3 (Opens Modal) -->
                 <button onclick="openModal()" class="group relative inline-flex items-center justify-center px-10 py-4 bg-red-gradient text-white font-bold text-lg rounded-full shadow-[0_0_30px_rgba(255,46,46,0.3)] hover:shadow-[0_0_50px_rgba(255,46,46,0.5)] transition-all duration-300 transform hover:-translate-y-1 w-full md:w-auto">
                     <span class="relative z-10">ДИВИТИСЬ УРОК</span>
                     <div class="absolute inset-0 rounded-full bg-white opacity-0 group-hover:opacity-20 transition-opacity"></div>
@@ -347,11 +381,11 @@
                     </div>
                 </div>
                 
-                <!-- ФОТО (ИЗМЕНИЛ НА КВАДРАТ И УМЕНЬШИЛ) -->
                 <div class="lg:w-1/2 flex justify-center lg:justify-start fade-in-up">
-                    <div class="relative w-[300px] h-[300px] lg:w-[400px] lg:h-[400px]"> <!-- УМЕНЬШИЛ И СДЕЛАЛ КВАДРАТНЫМ -->
+                    <div class="relative w-[300px] h-[300px] lg:w-[400px] lg:h-[400px]"> 
                         <div class="absolute inset-0 border border-white/10 rounded-2xl transform translate-x-4 translate-y-4"></div>
-                        <img src="main.JPG" alt="Владислава Царенко" class="relative z-10 w-full h-full object-cover rounded-2xl shadow-2xl grayscale-[20%] hover:grayscale-0 transition-all duration-500"
+                        <!-- Added loading="lazy" -->
+                        <img src="main.JPG" loading="lazy" alt="Владислава Царенко" class="relative z-10 w-full h-full object-cover rounded-2xl shadow-2xl grayscale-[20%] hover:grayscale-0 transition-all duration-500"
                         onerror="this.src='https://placehold.co/400x400/222/FFF?text=Bio+Photo';">
                     </div>
                 </div>
@@ -359,7 +393,7 @@
         </div>
     </section>
 
-    <!-- CASES / REVIEWS SECTION (INFINITE SCROLL + CLICK) -->
+    <!-- CASES / REVIEWS SECTION -->
     <section class="py-24 bg-[#080808] overflow-hidden">
         <div class="w-full relative group/slider">
             <div class="text-center mb-8 fade-in-up">
@@ -368,47 +402,45 @@
             </div>
 
             <div class="relative w-full overflow-hidden">
-                <!-- Gradient Masks -->
                 <div class="absolute top-0 left-0 h-full w-4 lg:w-32 bg-gradient-to-r from-[#050505] to-transparent z-10 pointer-events-none"></div>
                 <div class="absolute top-0 right-0 h-full w-4 lg:w-32 bg-gradient-to-l from-[#050505] to-transparent z-10 pointer-events-none"></div>
 
-                <!-- Лента с контентом -->
                 <div class="animate-marquee flex gap-4 lg:gap-6 items-center">
                     
-                    <!-- --- 12 ФОТО --- -->
-                    <div class="case-img-container" onclick="openImage('rewiew1.JPG')"><img src="rewiew1.JPG" alt="Case 1"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew2.JPG')"><img src="rewiew2.JPG" alt="Case 2"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew3.JPG')"><img src="rewiew3.JPG" alt="Case 3"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew4.JPG')"><img src="rewiew4.JPG" alt="Case 4"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew5.JPG')"><img src="rewiew5.JPG" alt="Case 5"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew6.JPG')"><img src="rewiew6.JPG" alt="Case 6"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew7.JPG')"><img src="rewiew7.JPG" alt="Case 7"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew8.JPG')"><img src="rewiew8.JPG" alt="Case 8"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew9.JPG')"><img src="rewiew9.JPG" alt="Case 9"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew10.JPG')"><img src="rewiew10.JPG" alt="Case 10"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew11.JPG')"><img src="rewiew11.JPG" alt="Case 11"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew12.JPG')"><img src="rewiew12.JPG" alt="Case 12"></div>
+                    <!-- Added loading="lazy" to all slider images -->
+                    <div class="case-img-container" onclick="openImage('rewiew1.JPG')"><img src="rewiew1.JPG" loading="lazy" alt="Case 1"></div>
+                    <div class="case-img-container" onclick="openImage('rewiew2.JPG')"><img src="rewiew2.JPG" loading="lazy" alt="Case 2"></div>
+                    <div class="case-img-container" onclick="openImage('rewiew3.JPG')"><img src="rewiew3.JPG" loading="lazy" alt="Case 3"></div>
+                    <div class="case-img-container" onclick="openImage('rewiew4.JPG')"><img src="rewiew4.JPG" loading="lazy" alt="Case 4"></div>
+                    <div class="case-img-container" onclick="openImage('rewiew5.JPG')"><img src="rewiew5.JPG" loading="lazy" alt="Case 5"></div>
+                    <div class="case-img-container" onclick="openImage('rewiew6.JPG')"><img src="rewiew6.JPG" loading="lazy" alt="Case 6"></div>
+                    <div class="case-img-container" onclick="openImage('rewiew7.JPG')"><img src="rewiew7.JPG" loading="lazy" alt="Case 7"></div>
+                    <div class="case-img-container" onclick="openImage('rewiew8.JPG')"><img src="rewiew8.JPG" loading="lazy" alt="Case 8"></div>
+                    <div class="case-img-container" onclick="openImage('rewiew9.JPG')"><img src="rewiew9.JPG" loading="lazy" alt="Case 9"></div>
+                    <div class="case-img-container" onclick="openImage('rewiew10.JPG')"><img src="rewiew10.JPG" loading="lazy" alt="Case 10"></div>
+                    <div class="case-img-container" onclick="openImage('rewiew11.JPG')"><img src="rewiew11.JPG" loading="lazy" alt="Case 11"></div>
+                    <div class="case-img-container" onclick="openImage('rewiew12.JPG')"><img src="rewiew12.JPG" loading="lazy" alt="Case 12"></div>
 
-                    <!-- ДУБЛИКАТЫ (для бесконечности) -->
-                    <div class="case-img-container" onclick="openImage('rewiew1.JPG')"><img src="rewiew1.JPG" alt="Case 1"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew2.JPG')"><img src="rewiew2.JPG" alt="Case 2"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew3.JPG')"><img src="rewiew3.JPG" alt="Case 3"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew4.JPG')"><img src="rewiew4.JPG" alt="Case 4"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew5.JPG')"><img src="rewiew5.JPG" alt="Case 5"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew6.JPG')"><img src="rewiew6.JPG" alt="Case 6"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew7.JPG')"><img src="rewiew7.JPG" alt="Case 7"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew8.JPG')"><img src="rewiew8.JPG" alt="Case 8"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew9.JPG')"><img src="rewiew9.JPG" alt="Case 9"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew10.JPG')"><img src="rewiew10.JPG" alt="Case 10"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew11.JPG')"><img src="rewiew11.JPG" alt="Case 11"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew12.JPG')"><img src="rewiew12.JPG" alt="Case 12"></div>
+                    <!-- ДУБЛИКАТЫ -->
+                    <div class="case-img-container" onclick="openImage('rewiew1.JPG')"><img src="rewiew1.JPG" loading="lazy" alt="Case 1"></div>
+                    <div class="case-img-container" onclick="openImage('rewiew2.JPG')"><img src="rewiew2.JPG" loading="lazy" alt="Case 2"></div>
+                    <div class="case-img-container" onclick="openImage('rewiew3.JPG')"><img src="rewiew3.JPG" loading="lazy" alt="Case 3"></div>
+                    <div class="case-img-container" onclick="openImage('rewiew4.JPG')"><img src="rewiew4.JPG" loading="lazy" alt="Case 4"></div>
+                    <div class="case-img-container" onclick="openImage('rewiew5.JPG')"><img src="rewiew5.JPG" loading="lazy" alt="Case 5"></div>
+                    <div class="case-img-container" onclick="openImage('rewiew6.JPG')"><img src="rewiew6.JPG" loading="lazy" alt="Case 6"></div>
+                    <div class="case-img-container" onclick="openImage('rewiew7.JPG')"><img src="rewiew7.JPG" loading="lazy" alt="Case 7"></div>
+                    <div class="case-img-container" onclick="openImage('rewiew8.JPG')"><img src="rewiew8.JPG" loading="lazy" alt="Case 8"></div>
+                    <div class="case-img-container" onclick="openImage('rewiew9.JPG')"><img src="rewiew9.JPG" loading="lazy" alt="Case 9"></div>
+                    <div class="case-img-container" onclick="openImage('rewiew10.JPG')"><img src="rewiew10.JPG" loading="lazy" alt="Case 10"></div>
+                    <div class="case-img-container" onclick="openImage('rewiew11.JPG')"><img src="rewiew11.JPG" loading="lazy" alt="Case 11"></div>
+                    <div class="case-img-container" onclick="openImage('rewiew12.JPG')"><img src="rewiew12.JPG" loading="lazy" alt="Case 12"></div>
 
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- FINAL CALL TO ACTION (С кнопкой 4) -->
+    <!-- FINAL CALL TO ACTION -->
     <section class="py-24 relative overflow-hidden">
         <div class="absolute inset-0 bg-red-gradient opacity-5"></div>
         <div class="red-glow-spot bottom-0 left-1/2 -translate-x-1/2 opacity-20"></div>
@@ -423,7 +455,6 @@
                 </p>
             </div>
 
-            <!-- BUTTON 4 (Opens Modal) -->
             <div class="fade-in-up">
                 <button onclick="openModal()" class="group relative inline-flex items-center justify-center px-10 py-5 bg-red-gradient text-white font-bold text-lg rounded-full shadow-[0_0_30px_rgba(255,46,46,0.3)] hover:shadow-[0_0_50px_rgba(255,46,46,0.5)] transition-all duration-300 transform hover:-translate-y-1 w-full md:w-auto">
                     <span class="relative z-10">ДИВИТИСЬ УРОК</span>
@@ -438,8 +469,8 @@
         <p class="text-gray-600 text-sm font-light tracking-wider">&copy; 2024 EVOLUTION BY VLADYSLAVA TSARENKO</p>
     </footer>
 
-    <!-- MODAL 1: LEAD FORM -->
-    <div id="modal-overlay" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 transition-all duration-300">
+    <!-- MODAL 1: LEAD FORM (UPDATED) -->
+    <div id="modal-overlay" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-md transition-all duration-300">
         <div class="relative w-full max-w-md p-2 m-4 fade-in-up visible" onclick="event.stopPropagation()">
             <button onclick="closeModal()" class="absolute -top-12 right-0 text-white hover:text-evo-red transition-colors text-3xl font-light focus:outline-none">
                 &times;
@@ -451,17 +482,24 @@
                     <p class="text-gray-400 text-sm">Введіть дані для входу в кабінет</p>
                 </div>
 
-                <form id="leadForm" class="space-y-4">
+                <form id="leadForm" class="space-y-6">
+                    <!-- Name Input -->
                     <div>
                         <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-2">Ваше Ім'я</label>
-                        <input type="text" name="name" required placeholder="Введіть ім'я" 
+                        <input type="text" id="name-input" name="name" required placeholder="Введіть ім'я" 
                                class="w-full px-5 py-3 rounded-lg evo-input font-medium placeholder-gray-600 text-sm focus:bg-white/10 transition-colors">
                     </div>
 
+                    <!-- Phone Input with Intl Library -->
                     <div>
                         <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-2">Ваш Телефон</label>
-                        <input type="tel" name="phone" required placeholder="+38 (0XX) XXX XX XX" 
+                        <input type="tel" id="phone-input" name="phone" required 
                                class="w-full px-5 py-3 rounded-lg evo-input font-medium placeholder-gray-600 text-sm focus:bg-white/10 transition-colors">
+                    </div>
+
+                    <!-- Error Message Area -->
+                    <div id="form-error" class="hidden text-evo-red text-xs text-center font-bold bg-evo-red/10 p-2 rounded border border-evo-red/20">
+                        Будь ласка, перевірте правильність даних
                     </div>
 
                     <button type="submit" class="w-full py-4 mt-2 bg-red-gradient text-white font-heading font-bold text-lg tracking-wide rounded-lg shadow-lg shadow-red-900/40 hover:shadow-red-900/60 transform hover:-translate-y-1 transition-all duration-300">
@@ -476,8 +514,8 @@
         </div>
     </div>
 
-    <!-- MODAL 2: IMAGE LIGHTBOX (Для увеличения фото) -->
-    <div id="image-modal-overlay" class="fixed inset-0 z-[60] hidden items-center justify-center bg-black/95 transition-all duration-300 cursor-pointer" onclick="closeImage()">
+    <!-- MODAL 2: IMAGE LIGHTBOX -->
+    <div id="image-modal-overlay" class="fixed inset-0 z-[60] hidden items-center justify-center bg-black/95 transition-all duration-300 cursor-pointer backdrop-blur-md" onclick="closeImage()">
         <button onclick="closeImage()" class="absolute top-5 right-5 text-white hover:text-evo-red transition-colors text-4xl font-light focus:outline-none z-[70]">
             &times;
         </button>
@@ -486,6 +524,9 @@
             <img id="modal-image-viewer" src="" class="max-w-full max-h-full object-contain rounded-lg shadow-2xl" onclick="event.stopPropagation()">
         </div>
     </div>
+
+    <!-- International Telephone Input JS -->
+    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/intlTelInput.min.js"></script>
 
     <!-- JS Logic -->
     <script>
@@ -500,7 +541,33 @@
             }, { threshold: 0.1 });
 
             document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
+            
+            // Ініціалізація телефонного інпуту
+            initPhoneInput();
         });
+
+        // --- PHONE INPUT LOGIC ---
+        let iti;
+
+        function initPhoneInput() {
+            const input = document.querySelector("#phone-input");
+            
+            iti = window.intlTelInput(input, {
+                initialCountry: "auto",
+                // Виключаємо Росію та Білорусь
+                excludeCountries: ["ru", "by"],
+                // Автоматичне визначення країни по IP
+                geoIpLookup: function(callback) {
+                    fetch("https://ipapi.co/json")
+                        .then(function(res) { return res.json(); })
+                        .then(function(data) { callback(data.country_code); })
+                        .catch(function() { callback("us"); });
+                },
+                utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/utils.js",
+                separateDialCode: true,
+                preferredCountries: ["ua", "pl", "de", "gb", "fr", "it", "es"], // Пріоритет Європи
+            });
+        }
 
         // --- POPUP FORM LOGIC ---
         const modal = document.getElementById('modal-overlay');
@@ -515,6 +582,9 @@
             modal.classList.add('hidden');
             modal.classList.remove('flex');
             document.body.style.overflow = ''; 
+            // Скидання форми та помилок при закритті
+            document.getElementById('leadForm').reset();
+            hideError();
         }
 
         modal.addEventListener('click', function(e) {
@@ -531,34 +601,98 @@
             imageViewer.src = src;
             imageModal.classList.remove('hidden');
             imageModal.classList.add('flex');
-            document.body.style.overflow = 'hidden'; // Block scroll
+            document.body.style.overflow = 'hidden'; 
         }
 
         function closeImage() {
             imageModal.classList.add('hidden');
             imageModal.classList.remove('flex');
             document.body.style.overflow = ''; 
-            setTimeout(() => { imageViewer.src = ''; }, 300); // Clear after fade out
+            setTimeout(() => { imageViewer.src = ''; }, 300);
         }
 
-        // --- FORM SUBMIT ---
+        // --- VALIDATION AND SUBMIT ---
         const form = document.getElementById('leadForm');
+        const nameInput = document.getElementById('name-input');
+        const phoneInput = document.getElementById('phone-input');
+        const errorDiv = document.getElementById('form-error');
+
+        function showError(message, inputElement = null) {
+            errorDiv.textContent = message;
+            errorDiv.classList.remove('hidden');
+            
+            if(inputElement) {
+                inputElement.classList.add('input-error');
+                // Видаляємо клас анімації через 500мс щоб можна було відтворити знову
+                setTimeout(() => {
+                    inputElement.classList.remove('input-error');
+                    // Залишаємо червоний бордер
+                    inputElement.style.borderColor = '#FF2E2E';
+                }, 500);
+            }
+        }
+
+        function hideError() {
+            errorDiv.classList.add('hidden');
+            nameInput.style.borderColor = '';
+            phoneInput.style.borderColor = '';
+            // Скидання стилів intl-tel-input контейнера якщо треба
+            const container = document.querySelector('.iti');
+            if(container) container.style.border = 'none';
+        }
+
+        // Прибираємо червоний колір при вводі
+        nameInput.addEventListener('input', () => {
+            nameInput.style.borderColor = '';
+            errorDiv.classList.add('hidden');
+        });
+        phoneInput.addEventListener('input', () => {
+            phoneInput.style.borderColor = '';
+            errorDiv.classList.add('hidden');
+        });
+
         form.addEventListener('submit', function(e) {
             e.preventDefault();
+            hideError();
+
+            const nameValue = nameInput.value.trim();
+            
+            // 1. Валідація імені (без цифр)
+            const hasNumbers = /\d/.test(nameValue);
+            if (hasNumbers) {
+                showError("Ім'я не може містити цифри. Виправте, будь ласка.", nameInput);
+                return;
+            }
+
+            // 2. Валідація телефону через бібліотеку
+            if (!iti.isValidNumber()) {
+                const errorCode = iti.getValidationError();
+                let msg = "Невірний формат номеру.";
+                // Базова обробка помилок бібліотеки
+                if(errorCode === -99) msg = "Введіть номер телефону"; // (дефолтний код якщо пусто)
+                
+                showError(msg + " Перевірте правильність.", phoneInput);
+                return;
+            }
+
+            // Якщо все ок - готуємо дані
+            const fullPhoneNumber = iti.getNumber(); // Номер у міжнародному форматі (+380...)
             const btn = form.querySelector('button');
             const originalText = btn.innerText;
             btn.innerText = "ЗАВАНТАЖЕННЯ...";
             btn.disabled = true;
 
-            const formData = new FormData(form);
-            const data = Object.fromEntries(formData);
+            const data = {
+                name: nameValue,
+                phone: fullPhoneNumber
+            };
             
             const SCRIPT_URL = 'ВАШ_GOOGLE_SCRIPT_URL'; 
 
             if (SCRIPT_URL === 'ВАШ_GOOGLE_SCRIPT_URL') {
                 setTimeout(() => {
                     if(typeof fbq !== 'undefined') fbq('track', 'Lead');
-                    alert("Успішно! (Вставте посилання на Web App URL)");
+                    alert(`Тестова відправка успішна!\nІм'я: ${data.name}\nТелефон: ${data.phone}`);
                     btn.innerText = originalText;
                     btn.disabled = false;
                     closeModal(); 
@@ -573,7 +707,7 @@
                     if(typeof fbq !== 'undefined') fbq('track', 'Lead');
                     window.location.href = "video.html"; 
                 }).catch(err => {
-                    alert('Помилка');
+                    alert('Помилка з\'єднання. Спробуйте пізніше.');
                     btn.innerText = originalText;
                     btn.disabled = false;
                 });
