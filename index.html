@@ -494,4 +494,176 @@
                     </div>
 
                     <!-- Контейнер ошибки (Анимация и текст) -->
-                    <div
+                    <div id="form-error" class="hidden text-center">
+                        <p class="text-evo-red text-xs font-bold uppercase tracking-wide animate-pulse mb-2">⚠️ <span id="error-text">Помилка</span></p>
+                    </div>
+
+                    <button type="submit" class="w-full py-4 mt-2 bg-red-gradient text-white font-heading font-bold text-lg tracking-wide rounded-lg shadow-lg shadow-red-900/40 hover:shadow-red-900/60 transform hover:-translate-y-1 transition-all duration-300">
+                        ОТРИМАТИ УРОК
+                    </button>
+                    
+                    <p class="text-center text-[10px] text-gray-600 mt-4">
+                        Ваші дані захищені політикою конфіденційності
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 2: IMAGE LIGHTBOX -->
+    <div id="image-modal-overlay" class="fixed inset-0 z-[60] hidden items-center justify-center bg-black/95 transition-all duration-300 cursor-pointer" onclick="closeImage()">
+        <button onclick="closeImage()" class="absolute top-5 right-5 text-white hover:text-evo-red transition-colors text-4xl font-light focus:outline-none z-[70]">
+            &times;
+        </button>
+        
+        <div class="relative w-full h-full flex items-center justify-center p-4">
+            <img id="modal-image-viewer" src="" class="max-w-full max-h-full object-contain rounded-lg shadow-2xl" onclick="event.stopPropagation()">
+        </div>
+    </div>
+
+    <!-- JS Libs -->
+    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/intlTelInput.min.js"></script>
+
+    <!-- JS Logic -->
+    <script>
+        // Анимации при скролле
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
+        });
+
+        // --- POPUP FORM LOGIC ---
+        const modal = document.getElementById('modal-overlay');
+
+        function openModal() {
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden'; 
+        }
+
+        function closeModal() {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = ''; 
+            // Reset form errors on close
+            document.getElementById('form-error').classList.add('hidden');
+            document.querySelectorAll('.evo-input').forEach(i => i.classList.remove('error-border'));
+        }
+
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // --- IMAGE LIGHTBOX LOGIC ---
+        const imageModal = document.getElementById('image-modal-overlay');
+        const imageViewer = document.getElementById('modal-image-viewer');
+
+        function openImage(src) {
+            imageViewer.src = src;
+            imageModal.classList.remove('hidden');
+            imageModal.classList.add('flex');
+            document.body.style.overflow = 'hidden'; 
+        }
+
+        function closeImage() {
+            imageModal.classList.add('hidden');
+            imageModal.classList.remove('flex');
+            document.body.style.overflow = ''; 
+            setTimeout(() => { imageViewer.src = ''; }, 300); 
+        }
+
+        // --- PHONE INPUT CONFIGURATION (intl-tel-input) ---
+        const phoneInput = document.querySelector("#phone");
+        const iti = window.intlTelInput(phoneInput, {
+            initialCountry: "auto",
+            excludeCountries: ["ru", "by"], // Исключаем RU и BY
+            utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/utils.js",
+            geoIpLookup: function(callback) {
+                fetch("https://ipapi.co/json")
+                .then(function(res) { return res.json(); })
+                .then(function(data) { callback(data.country_code); })
+                .catch(function() { callback("ua"); });
+            }
+        });
+
+        // --- FORM SUBMIT & VALIDATION ---
+        const form = document.getElementById('leadForm');
+        const errorContainer = document.getElementById('form-error');
+        const errorText = document.getElementById('error-text');
+        const nameInput = document.getElementById('name');
+
+        // URL вашего Google Apps Script (Тот, что вы прислали)
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxBFcWB61ZDy-vF9t-Xm5AJNTnwCU559r5JMv4qWZ0vQGZV1Mlyf4qCNMbCynZxvSPWww/exec';
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Сброс ошибок
+            errorContainer.classList.add('hidden');
+            nameInput.classList.remove('error-border');
+            phoneInput.classList.remove('error-border');
+
+            // 1. Валидация Имени (без цифр)
+            const nameValue = nameInput.value.trim();
+            if (/\d/.test(nameValue)) {
+                showError("Ім'я не може містити цифри");
+                nameInput.classList.add('error-border');
+                return;
+            }
+
+            // 2. Валидация Телефона
+            if (!iti.isValidNumber()) {
+                showError("Невірний формат номеру телефону. Перевірте, будь ласка.");
+                phoneInput.classList.add('error-border');
+                return;
+            }
+
+            // Если все ок - отправляем
+            const btn = form.querySelector('button');
+            const originalText = btn.innerText;
+            btn.innerText = "ЗАВАНТАЖЕННЯ...";
+            btn.disabled = true;
+
+            // Формируем данные
+            const fullPhone = iti.getNumber();
+            const data = {
+                name: nameValue,
+                phone: fullPhone
+            };
+            
+            // Отправляем данные
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify(data),
+                mode: 'no-cors', // Важно для Google Script
+                headers: { 'Content-Type': 'application/json' }
+            }).then(() => {
+                if(typeof fbq !== 'undefined') fbq('track', 'Lead');
+                
+                // --- ВСТАВЬТЕ ССЫЛКУ НА ВАШЕГО БОТА ТУТ ---
+                window.location.href = 'https://t.me/ВАШ_БОТ'; 
+                // ------------------------------------------
+                
+            }).catch(err => {
+                showError("Помилка з'єднання. Спробуйте пізніше.");
+                btn.innerText = originalText;
+                btn.disabled = false;
+            });
+        });
+
+        function showError(msg) {
+            errorText.innerText = msg;
+            errorContainer.classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
