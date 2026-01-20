@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/css/intlTelInput.css">
 
     <!-- META PIXEL / GOOGLE ANALYTICS -->
-    <!-- Вставьте коды аналитики сюда (в head) -->
+    <!-- Вставьте коды аналитики сюда (в head), если нужно -->
 
     <script>
         tailwind.config = {
@@ -145,6 +145,7 @@
             width: auto; 
             object-fit: contain; 
             display: block;
+            loading: lazy; /* Lazy load added here specifically */
         }
 
         /* Стили инпутов */
@@ -612,8 +613,8 @@
         // --- CONFIGURATION ---
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxBFcWB61ZDy-vF9t-Xm5AJNTnwCU559r5JMv4qWZ0vQGZV1Mlyf4qCNMbCynZxvSPWww/exec';
         
-        // !!! ВАЖНО: ВСТАВЬТЕ ССЫЛКУ НИЖЕ ВНУТРИ КАВЫЧЕК !!!
-        const REDIRECT_URL = 'ВСТАВЬТЕ_СЮДА_ВАШУ_ССЫЛКУ_НА_БОТА_ИЛИ_САЙТ'; 
+        // ВАША ССЫЛКА НА БОТА
+        const REDIRECT_URL = 'https://t.me/vladatsarenko_bot?start=696e0bec39fc548a870a6d7e'; 
 
         // --- FORM SUBMIT & VALIDATION ---
         const form = document.getElementById('leadForm');
@@ -667,15 +668,8 @@
                 // TRACK PIXEL (Если есть)
                 if(typeof fbq !== 'undefined') fbq('track', 'Lead');
                 
-                // РЕДИРЕКТ
-                if (REDIRECT_URL && REDIRECT_URL !== 'ВСТАВЬТЕ_СЮДА_ВАШУ_ССЫЛКУ_НА_БОТА_ИЛИ_САЙТ') {
-                    window.location.href = REDIRECT_URL;
-                } else {
-                    alert("Дані надіслано! (Не забудьте налаштувати посилання редіректу в коді)");
-                    closeModal();
-                    btn.innerText = originalText;
-                    btn.disabled = false;
-                }
+                // РЕДИРЕКТ НА БОТА
+                window.location.href = REDIRECT_URL;
 
             }).catch(err => {
                 console.error("Error:", err);
