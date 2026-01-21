@@ -103,34 +103,20 @@
             transform: translateY(0);
         }
 
-        /* БЕГУЩАЯ СТРОКА (MARQUEE) */
-        @keyframes marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-        
-        .animate-marquee {
-            display: flex;
-            width: max-content;
-            animation: marquee 60s linear infinite; /* Скорость ленты */
-        }
-        
-        /* Останавливать при наведении */
-        .animate-marquee:hover {
-            animation-play-state: paused;
-        }
-
         /* Стили фото кейсов: НАТУРАЛЬНЫЕ ПРОПОРЦИИ */
         .case-img-container {
             /* Высота на ПК: 400px (крупно) */
             height: 400px; 
             width: auto;
-            flex-shrink: 0;
+            flex-shrink: 0; /* Важно: запрещает сжиматься в flex контейнере */
             background: rgba(255, 255, 255, 0.05);
             border-radius: 12px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             overflow: hidden;
             cursor: pointer; /* Курсор-рука */
+            
+            /* Для эффекта привязки при скролле */
+            scroll-snap-align: center;
         }
 
         /* На мобильных высоту делаем меньше */
@@ -145,7 +131,16 @@
             width: auto; 
             object-fit: contain; 
             display: block;
-            loading: lazy; /* Lazy load added here specifically */
+            pointer-events: none; /* Чтобы картинку не перетаскивали мышкой при свайпе */
+        }
+
+        /* СКРЫТИЕ СКРОЛЛБАРА (для красоты, но скролл работает) */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
         }
 
         /* Стили инпутов */
@@ -395,49 +390,37 @@
         </div>
     </section>
 
-    <!-- CASES / REVIEWS SECTION (INFINITE SCROLL + CLICK) -->
+    <!-- CASES / REVIEWS SECTION (MANUAL HORIZONTAL SCROLL) -->
     <section class="py-24 bg-[#080808] overflow-hidden">
         <div class="w-full relative group/slider">
             <div class="text-center mb-8 fade-in-up">
                 <h2 class="font-heading text-3xl font-bold uppercase text-white mb-2"><span class="text-evo-red">КЕЙСИ</span></h2>
-                <p class="text-gray-500 text-xs uppercase tracking-widest animate-pulse">Натисни на фото, щоб збільшити</p>
+                <p class="text-gray-500 text-xs uppercase tracking-widest animate-pulse">Гортайте вбік, щоб переглянути | Натисніть на фото</p>
             </div>
 
-            <div class="relative w-full overflow-hidden">
-                <!-- Gradient Masks -->
-                <div class="absolute top-0 left-0 h-full w-4 lg:w-32 bg-gradient-to-r from-[#050505] to-transparent z-10 pointer-events-none"></div>
-                <div class="absolute top-0 right-0 h-full w-4 lg:w-32 bg-gradient-to-l from-[#050505] to-transparent z-10 pointer-events-none"></div>
+            <!-- Контейнер для скролла -->
+            <div class="relative w-full">
+                <!-- Градиентные маски по бокам для красоты (не перекрывают клики) -->
+                <div class="absolute top-0 left-0 h-full w-4 lg:w-16 bg-gradient-to-r from-[#050505] to-transparent z-10 pointer-events-none"></div>
+                <div class="absolute top-0 right-0 h-full w-4 lg:w-16 bg-gradient-to-l from-[#050505] to-transparent z-10 pointer-events-none"></div>
 
-                <!-- Лента с контентом + LAZY LOAD -->
-                <div class="animate-marquee flex gap-4 lg:gap-6 items-center">
+                <!-- Лента с контентом (Overflow Auto + Snap) -->
+                <div class="flex gap-4 lg:gap-6 overflow-x-auto snap-x snap-mandatory px-6 pb-6 no-scrollbar items-center">
                     
-                    <!-- --- 12 ФОТО --- -->
-                    <div class="case-img-container" onclick="openImage('rewiew1.JPG')"><img src="rewiew1.JPG" loading="lazy" alt="Case 1"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew2.JPG')"><img src="rewiew2.jpg" loading="lazy" alt="Case 2"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew3.JPG')"><img src="rewiew3.JPG" loading="lazy" alt="Case 3"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew4.JPG')"><img src="rewiew4.jpg" loading="lazy" alt="Case 4"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew5.JPG')"><img src="rewiew5.JPG" loading="lazy" alt="Case 5"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew6.JPG')"><img src="rewiew6.JPG" loading="lazy" alt="Case 6"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew7.JPG')"><img src="rewiew7.JPG" loading="lazy" alt="Case 7"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew8.JPG')"><img src="rewiew8.JPG" loading="lazy" alt="Case 8"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew9.JPG')"><img src="rewiew9.JPG" loading="lazy" alt="Case 9"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew10.JPG')"><img src="rewiew10.JPG" loading="lazy" alt="Case 10"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew11.JPG')"><img src="rewiew11.JPG" loading="lazy" alt="Case 11"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew12.JPG')"><img src="rewiew2.JPG" loading="lazy" alt="Case 12"></div>
-
-                    <!-- ДУБЛИКАТЫ (для бесконечности) -->
-                    <div class="case-img-container" onclick="openImage('rewiew1.JPG')"><img src="rewiew1.JPG" loading="lazy" alt="Case 1"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew2.JPG')"><img src="rewiew2.jpg" loading="lazy" alt="Case 2"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew3.JPG')"><img src="rewiew3.JPG" loading="lazy" alt="Case 3"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew4.JPG')"><img src="rewiew4.jpg" loading="lazy" alt="Case 4"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew5.JPG')"><img src="rewiew5.JPG" loading="lazy" alt="Case 5"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew6.JPG')"><img src="rewiew6.JPG" loading="lazy" alt="Case 6"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew7.JPG')"><img src="rewiew7.JPG" loading="lazy" alt="Case 7"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew8.JPG')"><img src="rewiew8.JPG" loading="lazy" alt="Case 8"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew9.JPG')"><img src="rewiew9.JPG" loading="lazy" alt="Case 9"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew10.JPG')"><img src="rewiew10.JPG" loading="lazy" alt="Case 10"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew11.JPG')"><img src="rewiew11.JPG" loading="lazy" alt="Case 11"></div>
-                    <div class="case-img-container" onclick="openImage('rewiew12.JPG')"><img src="rewiew2.JPG" loading="lazy" alt="Case 12"></div>
+                    <!-- --- ФОТО --- -->
+                    <!-- Каждому элементу добавлен класс snap-center -->
+                    <div class="case-img-container snap-center" onclick="openImage('rewiew1.JPG')"><img src="rewiew1.JPG" loading="lazy" alt="Case 1"></div>
+                    <div class="case-img-container snap-center" onclick="openImage('rewiew2.JPG')"><img src="rewiew2.jpg" loading="lazy" alt="Case 2"></div>
+                    <div class="case-img-container snap-center" onclick="openImage('rewiew3.JPG')"><img src="rewiew3.JPG" loading="lazy" alt="Case 3"></div>
+                    <div class="case-img-container snap-center" onclick="openImage('rewiew4.JPG')"><img src="rewiew4.jpg" loading="lazy" alt="Case 4"></div>
+                    <div class="case-img-container snap-center" onclick="openImage('rewiew5.JPG')"><img src="rewiew5.JPG" loading="lazy" alt="Case 5"></div>
+                    <div class="case-img-container snap-center" onclick="openImage('rewiew6.JPG')"><img src="rewiew6.JPG" loading="lazy" alt="Case 6"></div>
+                    <div class="case-img-container snap-center" onclick="openImage('rewiew7.JPG')"><img src="rewiew7.JPG" loading="lazy" alt="Case 7"></div>
+                    <div class="case-img-container snap-center" onclick="openImage('rewiew8.JPG')"><img src="rewiew8.JPG" loading="lazy" alt="Case 8"></div>
+                    <div class="case-img-container snap-center" onclick="openImage('rewiew9.JPG')"><img src="rewiew9.JPG" loading="lazy" alt="Case 9"></div>
+                    <div class="case-img-container snap-center" onclick="openImage('rewiew10.JPG')"><img src="rewiew10.JPG" loading="lazy" alt="Case 10"></div>
+                    <div class="case-img-container snap-center" onclick="openImage('rewiew11.JPG')"><img src="rewiew11.JPG" loading="lazy" alt="Case 11"></div>
+                    <div class="case-img-container snap-center" onclick="openImage('rewiew12.JPG')"><img src="rewiew2.JPG" loading="lazy" alt="Case 12"></div>
 
                 </div>
             </div>
