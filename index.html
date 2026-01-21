@@ -17,8 +17,23 @@
     <!-- Библиотека для телефона (Intl Tel Input) CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/css/intlTelInput.css">
 
-    <!-- META PIXEL / GOOGLE ANALYTICS -->
-    <!-- Вставьте коды аналитики сюда (в head), если нужно -->
+    <!-- Meta Pixel Code -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1648181812851913');
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1648181812851913&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
 
     <script>
         tailwind.config = {
@@ -454,7 +469,7 @@
 
     <!-- FOOTER -->
     <footer class="py-8 bg-black border-t border-white/5 text-center">
-        <p class="text-gray-600 text-sm font-light tracking-wider">&copy; 2026 VLADYSLAVA TSARENKO</p>
+        <p class="text-gray-600 text-sm font-light tracking-wider">&copy; 2024 EVOLUTION BY VLADYSLAVA TSARENKO</p>
     </footer>
 
     <!-- MODAL 1: LEAD FORM (UPDATED) -->
@@ -648,8 +663,11 @@
                 mode: 'no-cors', 
                 headers: { 'Content-Type': 'application/json' }
             }).then(() => {
-                // TRACK PIXEL (Если есть)
-                if(typeof fbq !== 'undefined') fbq('track', 'Lead');
+                // TRACK PIXEL
+                // Теперь fbq точно определен, так как код пикселя в head
+                if(typeof fbq !== 'undefined') {
+                    fbq('track', 'Lead');
+                }
                 
                 // РЕДИРЕКТ НА БОТА
                 window.location.href = REDIRECT_URL;
