@@ -663,10 +663,13 @@
                 mode: 'no-cors', 
                 headers: { 'Content-Type': 'application/json' }
             }).then(() => {
-                // TRACK PIXEL
-                // Теперь fbq точно определен, так как код пикселя в head
-                if(typeof fbq !== 'undefined') {
-                    fbq('track', 'Lead');
+                // TRACK PIXEL (С ЗАЩИТОЙ ОТ ДУБЛЕЙ)
+                // Проверяем, не отправляли ли мы уже лид в этой сессии
+                if (!sessionStorage.getItem('leadSent')) {
+                    if(typeof fbq !== 'undefined') {
+                        fbq('track', 'Lead');
+                    }
+                    sessionStorage.setItem('leadSent', 'true'); // Ставим метку
                 }
                 
                 // РЕДИРЕКТ НА БОТА
