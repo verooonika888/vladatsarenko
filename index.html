@@ -617,16 +617,22 @@
 
         // --- CONFIGURATION ---
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxBFcWB61ZDy-vF9t-Xm5AJNTnwCU559r5JMv4qWZ0vQGZV1Mlyf4qCNMbCynZxvSPWww/exec';
-        
-        // ВАША ССЫЛКА НА БОТА
         const REDIRECT_URL = 'https://t.me/vladatsarenko_bot?start=696e0bec39fc548a870a6d7e'; 
+
+        // --- HELPER: GET UTM PARAMETERS ---
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
 
         // --- FORM SUBMIT & VALIDATION ---
         const form = document.getElementById('leadForm');
         const errorContainer = document.getElementById('form-error');
         const errorText = document.getElementById('error-text');
         const nameInput = document.getElementById('name');
-        const telegramInput = document.getElementById('telegram'); // ПОЛУЧАЕМ ПОЛЕ TELEGRAM
+        const telegramInput = document.getElementById('telegram'); 
         
         form.addEventListener('submit', function(e) {
             e.preventDefault();
@@ -637,7 +643,7 @@
             phoneInput.classList.remove('error-border');
             telegramInput.classList.remove('error-border');
 
-            // 1. Валидация Имени (без цифр)
+            // 1. Валидация Имени
             const nameValue = nameInput.value.trim();
             if (/\d/.test(nameValue)) {
                 showError("Ім'я не може містити цифри");
@@ -661,12 +667,19 @@
             btn.innerText = "ЗАВАНТАЖЕННЯ...";
             btn.disabled = true;
 
-            // Формируем данные
+            // Формируем данные (ВКЛЮЧАЯ UTM)
             const fullPhone = iti.getNumber();
+            
             const data = {
                 name: nameValue,
                 phone: fullPhone,
-                telegram: telegramValue // ДОБАВЛЯЕМ НИК ТЕЛЕГРАМА В ДАННЫЕ
+                telegram: telegramValue,
+                // Додаємо UTM мітки з URL
+                utm_source: getUrlParameter('utm_source'),
+                utm_medium: getUrlParameter('utm_medium'),
+                utm_campaign: getUrlParameter('utm_campaign'),
+                utm_content: getUrlParameter('utm_content'),
+                utm_term: getUrlParameter('utm_term')
             };
 
             // Отправка в Google Sheet
@@ -677,7 +690,6 @@
                 headers: { 'Content-Type': 'application/json' }
             }).then(() => {
                 // TRACK PIXEL
-                // Теперь fbq точно определен, так как код пикселя в head
                 if(typeof fbq !== 'undefined') {
                     fbq('track', 'Lead');
                 }
